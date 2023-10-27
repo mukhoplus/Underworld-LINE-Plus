@@ -2,6 +2,7 @@ import { connect } from "react-redux";
 import { setUserId } from "../../redux/action";
 import InfoComponent from "./components/InfoComponent";
 import ChatComponent from "./components/ChatComponent";
+import { axiosRequest } from "../../service/AxiosService";
 
 const mapDispatchToProps = (dispatch) => ({
   setUserId: (userId) => dispatch(setUserId(userId)),
@@ -26,7 +27,15 @@ const Main = ({
       {roomList.length}
       {chatId}
       {chatList.length}
-      <button onClick={() => setUserId(0)}>로그아웃인것</button>
+      <button
+        onClick={() => {
+          axiosRequest("post", "/user/logout").then(() => {
+            setUserId(0);
+          });
+        }}
+      >
+        로그아웃인것
+      </button>
       <InfoComponent
         userId={userId}
         roomList={roomList}

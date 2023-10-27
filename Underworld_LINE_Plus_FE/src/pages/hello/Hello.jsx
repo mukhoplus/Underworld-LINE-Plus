@@ -8,14 +8,22 @@ const mapDispatchToProps = (dispatch) => ({
   setUserId: (id) => dispatch(setUserId(id)),
 });
 
-const Hello = ({ setUserId }) => {
+const Hello = ({ setUserId, setIsSession }) => {
   const [page, setPage] = useState(0);
   return (
     <>
       {page === 0 ? (
-        <LoginComponent setPage={setPage} setUserId={setUserId} />
+        <LoginComponent
+          setPage={setPage}
+          setUserId={setUserId}
+          setIsSession={setIsSession}
+        />
       ) : (
-        <SignupComponent setPage={setPage} setUserId={setUserId} />
+        <SignupComponent
+          setPage={setPage}
+          setUserId={setUserId}
+          setIsSession={setIsSession}
+        />
       )}
     </>
   );

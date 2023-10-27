@@ -1,4 +1,4 @@
-const LoginComponent = ({ setPage, setUserId }) => {
+const LoginComponent = ({ setPage, setUserId, setIsSession }) => {
   const handleSignup = () => {
     setPage(1);
   };
