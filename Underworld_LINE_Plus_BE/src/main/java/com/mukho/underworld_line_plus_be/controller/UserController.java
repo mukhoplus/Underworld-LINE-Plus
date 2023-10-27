@@ -30,6 +30,22 @@ public class UserController {
 		session.setAttribute("loginUser", loginUserDto);
 	}
 
+	@GetMapping("/session")
+	public ResponseEntity<?> session(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+
+		try {
+			LoginUserDto loginUserDto = (LoginUserDto) session.getAttribute("loginUser");
+			if (loginUserDto == null) {
+				throw new Exception();
+			}
+			return ResponseEntity.ok(loginUserDto.getUserId());
+		} catch (Exception e) {
+			return ResponseEntity.ok(0);
+		}
+
+	}
+
 	@PostMapping("/signup")
 	public ResponseEntity<?> signup(@RequestBody SignupDto signupDto, HttpServletRequest request) {
 		try {
