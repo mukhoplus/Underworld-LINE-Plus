@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mukho.underworld_line_plus_be.mapper.RoomMapper">
+
+    <select id="isRoomExist" resultType="java.lang.Integer">
+        SELECT
+            COUNT(identifier)
+        FROM
+            room
+        WHERE
+            identifier = #{identifier}
+    </select>
+
+    <insert id="createRoom">
+        INSERT INTO
+            room (identifier)
+        VALUES (
+            #{identifier}
+        )
+    </insert>
+
+    <select id="isExistRoom" resultType="java.lang.Integer">
+        SELECT
+            COUNT(identifier)
+        FROM
+            room
+        WHERE
+            identifier = #{identifier}
+    </select>
+
+    <update id="updateRoom">
+        UPDATE
+            room
+        SET
+            last_message = #{lastMessage}
+        WHERE
+            room_id = #{roomId}
+    </update>
+
+    <select id="getIdentifier" resultType="java.lang.String">
+        SELECT
+            identifier
+        FROM
+            room
+        WHERE
+            room_id = #{roomId}
+    </select>
+
+    <select id="getRoomListByUserId" resultType="com.mukho.underworld_line_plus_be.dto.room.RoomDto">
+        SELECT
+            room_id roomId,
+            (
+                SELECT
+                    name
+                FROM
+                    user
+                WHERE
+                    user_id = (
+                        CASE
+                            WHEN POSITION('-' IN identifier) = 1 THEN
+                                SUBSTRING(identifier, 2)
+                            ELSE
+                                SUBSTRING(identifier, 1, POSITION('-' IN identifier) - 1)
+                        END
+                    )
+            ) roomName,
+            last_message lastMessage,
+            updated_at updatedAt,
+            (
+                SELECT
+                    COUNT(chat_id)
+                FROM
+                    chat
+                WHERE
+                    room_id = room.room_id
+                AND send_user_id != #{userId}
+                AND not_read = 1
+            ) notReadCount
+        FROM
+            room
+        WHERE
+            identifier like CONCAT(#{userId}, '-%')
+        OR
+            identifier like CONCAT('%-', #{userId})
+        ORDER BY
+            updated_at DESC
+    </select>
+
+    <select id="getRoomIdByIdentifier" resultType="java.lang.Integer">
+        SELECT
+            room_id roomId
+        FROM
+            room
+        WHERE
+            identifier = #{identifier}
+    </select>
+
+</mapper>
