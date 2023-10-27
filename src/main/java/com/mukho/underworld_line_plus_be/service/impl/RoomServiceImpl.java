@@ -1,6 +1,7 @@
 package com.mukho.underworld_line_plus_be.service.impl;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -51,23 +52,22 @@ public class RoomServiceImpl implements RoomService {
 
 	@Override
 	public int getRoomIdByUserId(int userId) {
-		int result = 0;
-
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 		HttpSession session = request.getSession();
 		LoginUserDto loginUserDto = (LoginUserDto) session.getAttribute("loginUser");
 		int currentUserId = loginUserDto.getUserId();
 
 		String identifier = getIdentifier(currentUserId, userId);
+		int result;
 
 		try {
 			result = roomMapper.getRoomIdByIdentifier(identifier);
 		} catch (Exception e) {
 			roomMapper.createRoom(identifier);
 			result = roomMapper.getRoomIdByIdentifier(identifier);
-		} finally {
-			return result;
 		}
+
+		return result;
 	}
 
 	public String getIdentifier(int currentUserId, int userId) {
