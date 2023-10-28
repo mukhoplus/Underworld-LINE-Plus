@@ -19,18 +19,6 @@ const SignupComponent = ({ setPage, setUserId, setIsSession }) => {
     setPasswordVisible(!passwordVisible);
   };
 
-  const handleIdOnChenge = (event) => {
-    setId(event.target.value);
-  };
-
-  const handlePasswordOnChenge = (event) => {
-    setPassword(event.target.value);
-  };
-
-  const handleNameOnChenge = (event) => {
-    setName(event.target.value);
-  };
-
   const handleSignup = async () => {
     if (!(isIdOk && isPasswordOk && isNameOk)) {
       await warningModal("알림", "입력한 정보를 다시 확인해주세요.");
@@ -47,10 +35,6 @@ const SignupComponent = ({ setPage, setUserId, setIsSession }) => {
       await getSessionUserId(setUserId, setIsSession);
       setPage(0);
     });
-  };
-
-  const handleLogin = () => {
-    setPage(0);
   };
 
   return (
@@ -89,7 +73,7 @@ const SignupComponent = ({ setPage, setUserId, setIsSession }) => {
         >
           <Input
             placeholder="아이디"
-            onChange={handleIdOnChenge}
+            onChange={(event) => setId(event.target.value)}
             maxLength={20}
           />
         </Form.Item>
@@ -131,7 +115,7 @@ const SignupComponent = ({ setPage, setUserId, setIsSession }) => {
           <Input
             type={passwordVisible ? "text" : "password"}
             placeholder="비밀번호"
-            onChange={handlePasswordOnChenge}
+            onChange={(event) => setPassword(event.target.value)}
             maxLength={16}
             suffix={
               passwordVisible ? (
@@ -175,12 +159,12 @@ const SignupComponent = ({ setPage, setUserId, setIsSession }) => {
         >
           <Input
             placeholder="이름"
-            onChange={handleNameOnChenge}
+            onChange={(event) => setName(event.target.value)}
             maxLength={40}
           />
         </Form.Item>
         <Form.Item>
-          <Button onClick={handleLogin}>뒤로가기</Button>
+          <Button onClick={() => setPage(0)}>뒤로가기</Button>
           <Button type="primary" onClick={handleSignup}>
             회원가입
           </Button>
