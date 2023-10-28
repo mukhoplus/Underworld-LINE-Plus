@@ -15,7 +15,10 @@
 
     <select id="login" resultType="com.mukho.underworld_line_plus_be.dto.user.User">
         SELECT
-            id, password
+            user_id userId,
+            id,
+            password,
+            name
         FROM
             user
         WHERE
