@@ -19,18 +19,6 @@ const SignupComponent = ({ setPage, setUserId, setIsSession }) => {
     setPasswordVisible(!passwordVisible);
   };
 
-  const handleIdOnChenge = (event) => {
-    setId(event.target.value);
-  };
-
-  const handlePasswordOnChenge = (event) => {
-    setPassword(event.target.value);
-  };
-
-  const handleNameOnChenge = (event) => {
-    setName(event.target.value);
-  };
-
   const handleSignup = async () => {
     if (!(isIdOk && isPasswordOk && isNameOk)) {
       await warningModal("알림", "입력한 정보를 다시 확인해주세요.");
@@ -49,16 +37,13 @@ const SignupComponent = ({ setPage, setUserId, setIsSession }) => {
     });
   };
 
-  const handleLogin = () => {
-    setPage(0);
-  };
-
   return (
     <>
-      <Form>
+      <h3>회원가입</h3>
+      <Form labelCol={6} wrapperCol={12} style={{ width: "500px" }}>
         <Form.Item
           label="아이디"
-          name="아이디"
+          name="id"
           rules={[
             {
               validator: async (rule, value) => {
@@ -89,13 +74,13 @@ const SignupComponent = ({ setPage, setUserId, setIsSession }) => {
         >
           <Input
             placeholder="아이디"
-            onChange={handleIdOnChenge}
+            onChange={(event) => setId(event.target.value)}
             maxLength={20}
           />
         </Form.Item>
         <Form.Item
           label="비밀번호"
-          name="비밀번호"
+          name="password"
           rules={[
             {
               validator: (rule, value) => {
@@ -131,7 +116,7 @@ const SignupComponent = ({ setPage, setUserId, setIsSession }) => {
           <Input
             type={passwordVisible ? "text" : "password"}
             placeholder="비밀번호"
-            onChange={handlePasswordOnChenge}
+            onChange={(event) => setPassword(event.target.value)}
             maxLength={16}
             suffix={
               passwordVisible ? (
@@ -144,7 +129,7 @@ const SignupComponent = ({ setPage, setUserId, setIsSession }) => {
         </Form.Item>
         <Form.Item
           label="이름"
-          name="이름"
+          name="name"
           rules={[
             {
               validator: async (rule, value) => {
@@ -175,12 +160,12 @@ const SignupComponent = ({ setPage, setUserId, setIsSession }) => {
         >
           <Input
             placeholder="이름"
-            onChange={handleNameOnChenge}
+            onChange={(event) => setName(event.target.value)}
             maxLength={40}
           />
         </Form.Item>
         <Form.Item>
-          <Button onClick={handleLogin}>뒤로가기</Button>
+          <Button onClick={() => setPage(0)}>뒤로가기</Button>
           <Button type="primary" onClick={handleSignup}>
             회원가입
           </Button>
