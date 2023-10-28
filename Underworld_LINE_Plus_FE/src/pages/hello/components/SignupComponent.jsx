@@ -39,10 +39,11 @@ const SignupComponent = ({ setPage, setUserId, setIsSession }) => {
 
   return (
     <>
-      <Form>
+      <h3>회원가입</h3>
+      <Form labelCol={6} wrapperCol={12} style={{ width: "500px" }}>
         <Form.Item
           label="아이디"
-          name="아이디"
+          name="id"
           rules={[
             {
               validator: async (rule, value) => {
@@ -79,7 +80,7 @@ const SignupComponent = ({ setPage, setUserId, setIsSession }) => {
         </Form.Item>
         <Form.Item
           label="비밀번호"
-          name="비밀번호"
+          name="password"
           rules={[
             {
               validator: (rule, value) => {
@@ -128,7 +129,7 @@ const SignupComponent = ({ setPage, setUserId, setIsSession }) => {
         </Form.Item>
         <Form.Item
           label="이름"
-          name="이름"
+          name="name"
           rules={[
             {
               validator: async (rule, value) => {
