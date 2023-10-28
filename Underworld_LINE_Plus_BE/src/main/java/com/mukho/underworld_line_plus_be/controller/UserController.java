@@ -71,13 +71,13 @@ public class UserController {
 			LoginUserDto loginUserDto = userService.login(loginDto);
 
 			if (loginUserDto == null) {
-				throw new Exception();
+				return ResponseEntity.ok().body(HttpStatus.UNAUTHORIZED.toString());
 			}
 
 			setSession(request, loginUserDto);
 			return ResponseEntity.ok(loginUserDto);
 		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+			return ResponseEntity.internalServerError().build();
 		}
 	}
 
