@@ -23,7 +23,7 @@ const App = ({ userId, setUserId, roomList, chatId, chatList }) => {
 
   useEffect(() => {
     getSessionUserId(setUserId, setIsSession);
-  }, [setUserId]);
+  }, [userId]);
 
   if (!isSession) return;
   return (
