@@ -4,18 +4,33 @@ import UserComponent from "./info/UserComponent";
 import RoomComponent from "./info/RoomComponent";
 import { axiosRequest } from "../../../service/AxiosService";
 
-const InfoComponent = ({ userId, roomList, setRoomList }) => {
+const InfoComponent = ({
+  userId,
+  userList,
+  setUserList,
+  setRoomId,
+  roomList,
+  setRoomList,
+}) => {
   const [menu, setMenu] = useState(0);
 
-  const getRoomList = async () => {
+  const handleUserList = async () => {
+    axiosRequest("get", "/user/list").then((response) => {
+      const data = response.data;
+      setUserList(data);
+    });
+  };
+
+  const handleRoomList = async () => {
     axiosRequest("get", `/room/list/${userId}`).then((response) => {
       setRoomList(response.data);
     });
   };
 
   useEffect(() => {
-    getRoomList();
-  }, [setRoomList]);
+    handleUserList();
+    handleRoomList();
+  }, [userId]);
 
   return (
     <>
@@ -30,9 +45,18 @@ const InfoComponent = ({ userId, roomList, setRoomList }) => {
         </Col>
         <Col>
           {menu === 0 ? (
-            <UserComponent userId={userId} />
+            <UserComponent
+              userId={userId}
+              userList={userList}
+              setRoomId={setRoomId}
+            />
           ) : (
-            <RoomComponent roomList={roomList} setRoomList={setRoomList} />
+            <RoomComponent
+              userId={userId}
+              setRoomId={setRoomId}
+              roomList={roomList}
+              handleRoomList={handleRoomList}
+            />
           )}
         </Col>
       </Row>

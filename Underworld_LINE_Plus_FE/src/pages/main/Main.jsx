@@ -3,8 +3,9 @@ import { connect } from "react-redux";
 import { Button, Row, Col } from "antd";
 import {
   setUserId,
+  setUserList,
   setRoomList,
-  setChatId,
+  setRoomId,
   setChatList,
 } from "../../redux/action";
 import SocketService from "../../service/SocketService";
@@ -14,32 +15,42 @@ import { axiosRequest } from "../../service/AxiosService";
 
 const mapDispatchToProps = (dispatch) => ({
   setUserId: (userId) => dispatch(setUserId(userId)),
+  setUserList: (userList) => dispatch(setUserList(userList)),
   setRoomList: (roomList) => dispatch(setRoomList(roomList)),
-  setChatId: (chatId) => dispatch(setChatId(chatId)),
+  setRoomId: (roomId) => dispatch(setRoomId(roomId)),
   setChatList: (chatList) => dispatch(setChatList(chatList)),
 });
 
 const Main = ({
   userId,
+  userList,
   roomList,
-  chatId,
+  roomId,
   chatList,
   setUserId,
+  setUserList,
   setRoomList,
-  setChatId,
+  setRoomId,
   setChatList,
 }) => {
   useEffect(() => {
-    SocketService.connect("ws://localhost:8080/api/v1/socket");
+    SocketService.connect(
+      "ws://localhost:8080/api/v1/socket",
+      setRoomList,
+      setChatList
+    );
   }, []);
 
   return (
     <>
       <Row>
-        메인{userId}
-        {roomList.length}
-        {chatId}
-        {chatList.length}
+        <div>
+          <p>메인 : {userId}</p>
+          <p>유저 수 : {userList.length}</p>
+          <p>채팅방 수 : {roomList.length}</p>
+          <p>선택된 채팅방 번호 : {roomId}</p>
+          <p>채팅 수 : {chatList.length}</p>
+        </div>
         <Button
           onClick={() => {
             axiosRequest("post", "/user/logout").then(() => {
@@ -55,6 +66,9 @@ const Main = ({
         <Col>
           <InfoComponent
             userId={userId}
+            userList={userList}
+            setUserList={setUserList}
+            setRoomId={setRoomId}
             roomList={roomList}
             setRoomList={setRoomList}
           />
@@ -62,8 +76,8 @@ const Main = ({
         <Col>
           <ChatComponent
             userId={userId}
-            chatId={chatId}
-            setChatId={setChatId}
+            roomId={roomId}
+            setRoomId={setRoomId}
             chatList={chatList}
             setChatList={setChatList}
           />
