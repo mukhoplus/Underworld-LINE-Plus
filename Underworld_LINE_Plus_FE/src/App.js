@@ -8,8 +8,10 @@ import { getSessionUserId } from "./service/SessionService";
 const mapStateToProps = (state) => {
   return {
     userId: state.userId,
+    userList: state.userList,
     roomList: state.roomList,
     chatId: state.chatId,
+    roomId: state.roomId,
     chatList: state.chatList,
   };
 };
@@ -18,12 +20,20 @@ const mapDispatchToProps = (dispatch) => ({
   setUserId: (id) => dispatch(setUserId(id)),
 });
 
-const App = ({ userId, setUserId, roomList, chatId, chatList }) => {
+const App = ({
+  userId,
+  setUserId,
+  userList,
+  roomList,
+  chatId,
+  roomId,
+  chatList,
+}) => {
   const [isSession, setIsSession] = useState(false);
 
   useEffect(() => {
     getSessionUserId(setUserId, setIsSession);
-  }, [setUserId]);
+  }, [userId]);
 
   if (!isSession) return;
   return (
@@ -33,8 +43,10 @@ const App = ({ userId, setUserId, roomList, chatId, chatList }) => {
       ) : (
         <Main
           userId={userId}
+          userList={userList}
           roomList={roomList}
           chatId={chatId}
+          roomId={roomId}
           chatList={chatList}
         />
       )}
