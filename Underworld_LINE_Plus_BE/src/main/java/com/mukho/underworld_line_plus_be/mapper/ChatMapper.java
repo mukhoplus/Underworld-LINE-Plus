@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.mukho.underworld_line_plus_be.dto.chat.ChatDto;
-import com.mukho.underworld_line_plus_be.dto.chat.ReadChatDto;
 import com.mukho.underworld_line_plus_be.dto.chat.SendChatDto;
 
 @Mapper
@@ -15,6 +14,6 @@ public interface ChatMapper {
 
 	int sendChat(SendChatDto sendChatDto);
 
-	void readChat(ReadChatDto readChatDto);
+	void readChat(SendChatDto sendChatDto);
 
 }

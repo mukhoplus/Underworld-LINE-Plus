@@ -85,6 +85,7 @@ public class UserController {
 	public ResponseEntity<?> logout(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		session.invalidate();
+		// 컴포넌트 이동 -> 소켓 세션 연결 끊기 -> 세션 정보 제거 : 버그 발견
 		return ResponseEntity.ok().build();
 	}
 

@@ -17,7 +17,6 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.mukho.underworld_line_plus_be.dto.chat.ChatDto;
-import com.mukho.underworld_line_plus_be.dto.chat.ReadChatDto;
 import com.mukho.underworld_line_plus_be.dto.chat.SendChatDto;
 import com.mukho.underworld_line_plus_be.dto.chat.SocketResponseDto;
 import com.mukho.underworld_line_plus_be.dto.chat.SocketSendDto;
@@ -43,28 +42,34 @@ public class WebSocketController extends TextWebSocketHandler {
 
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		// 현재 세션에서 값을 불러와 userId 속성 추가
-		HttpServletRequest request = (HttpServletRequest)session.getAttributes().get("HTTPSESSION");
-		HttpSession curUserSession = request.getSession();
+		try {
+			HttpSession curUserSession = (HttpSession) session.getAttributes().get("httpSession");
 
-		if (request == null) {
-			return;
+			LoginUserDto loginUserDto = (LoginUserDto)curUserSession.getAttribute("loginUser");
+			int userId = loginUserDto.getUserId();
+			session.getAttributes().put("userId", userId);
+
+			super.afterConnectionEstablished(session);
+			sessions.put(userId, session);
+		} catch(Exception e) {
+
 		}
 
-		LoginUserDto loginUserDto = (LoginUserDto)curUserSession.getAttribute("loginUser");
-		int userId = loginUserDto.getUserId();
-		session.getAttributes().put("userId", userId);
-
-		super.afterConnectionEstablished(session);
-		sessions.put(userId, session);
 	}
 
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-		super.afterConnectionClosed(session, status);
+		try {
+			HttpSession curUserSession = (HttpSession) session.getAttributes().get("httpSession");
+			LoginUserDto loginUserDto = (LoginUserDto)curUserSession.getAttribute("loginUser");
+			int userId = loginUserDto.getUserId();
 
-		int userId = Integer.parseInt(session.getAttributes().get("userId").toString());
-		sessions.remove(userId);
+			super.afterConnectionClosed(session, status);
+			sessions.remove(userId);
+			// curUserSession.invalidate();
+		} catch (Exception e) {
+
+		}
 	}
 
 	@Override
@@ -84,7 +89,7 @@ public class WebSocketController extends TextWebSocketHandler {
 			roomService.updateRoom(roomId, message);
 			chatService.sendChat(new SendChatDto(roomId, sendUserId, message));
 		} else {
-			chatService.readChat(new ReadChatDto(roomId, sendUserId));
+			chatService.readChat(new SendChatDto(roomId, sendUserId, ""));
 		}
 
 		String identifier = roomService.getIdentifier(roomId);
