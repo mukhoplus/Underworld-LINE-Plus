@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mukho.underworld_line_plus_be.dto.chat.ChatDto;
-import com.mukho.underworld_line_plus_be.dto.chat.ReadChatDto;
 import com.mukho.underworld_line_plus_be.dto.chat.SendChatDto;
 import com.mukho.underworld_line_plus_be.mapper.ChatMapper;
 import com.mukho.underworld_line_plus_be.service.ChatService;
@@ -28,8 +27,8 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	public void readChat(ReadChatDto readChatDto) {
-		chatMapper.readChat(readChatDto);
+	public void readChat(SendChatDto sendChatDto) {
+		chatMapper.readChat(sendChatDto);
 	}
 
 }

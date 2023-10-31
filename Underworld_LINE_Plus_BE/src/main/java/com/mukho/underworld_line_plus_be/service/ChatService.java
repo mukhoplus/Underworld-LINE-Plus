@@ -3,7 +3,6 @@ package com.mukho.underworld_line_plus_be.service;
 import java.util.List;
 
 import com.mukho.underworld_line_plus_be.dto.chat.ChatDto;
-import com.mukho.underworld_line_plus_be.dto.chat.ReadChatDto;
 import com.mukho.underworld_line_plus_be.dto.chat.SendChatDto;
 
 public interface ChatService {
@@ -12,6 +11,6 @@ public interface ChatService {
 
 	int sendChat(SendChatDto sendChatDto);
 
-	void readChat(ReadChatDto readChatDto);
+	void readChat(SendChatDto sendChatDto);
 
 }

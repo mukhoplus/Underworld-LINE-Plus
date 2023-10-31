@@ -41,17 +41,21 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public LoginUserDto login(LoginDto loginDto) {
 
-		String plainPassword = loginDto.getPassword();
 		User user = userMapper.login(loginDto);
-
-		if (checkPassword(plainPassword, user.getPassword())) {
-			int userId = user.getUserId();
-			String id = user.getId();
-			String name = user.getName();
-
-			return new LoginUserDto(userId, id, name);
+		if (user == null) {
+			return null;
 		}
-		return null;
+
+		String plainPassword = loginDto.getPassword();
+		if (!checkPassword(plainPassword, user.getPassword())) {
+			return null;
+		}
+
+		int userId = user.getUserId();
+		String id = user.getId();
+		String name = user.getName();
+
+		return new LoginUserDto(userId, id, name);
 	}
 
 	@Override

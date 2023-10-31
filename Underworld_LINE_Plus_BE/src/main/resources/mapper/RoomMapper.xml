@@ -14,9 +14,10 @@
 
     <insert id="createRoom">
         INSERT INTO
-            room (identifier)
+            room (identifier, last_message)
         VALUES (
-            #{identifier}
+            #{identifier},
+            ''
         )
     </insert>
 
@@ -51,19 +52,14 @@
         SELECT
             room_id roomId,
             (
-                SELECT
-                    name
-                FROM
-                    user
-                WHERE
-                    user_id = (
-                        CASE
-                            WHEN POSITION('-' IN identifier) = 1 THEN
-                                SUBSTRING(identifier, 2)
-                            ELSE
-                                SUBSTRING(identifier, 1, POSITION('-' IN identifier) - 1)
-                        END
-                    )
+                CASE
+                    WHEN room.identifier LIKE CONCAT(#{userId}, '-%') THEN
+                        (SELECT name FROM user WHERE user_id = SUBSTRING(room.identifier, LENGTH(CONCAT(#{userId}, '-')) + 1))
+                    WHEN room.identifier LIKE CONCAT('%-', #{userId}) THEN
+                        (SELECT name FROM user WHERE user_id = SUBSTRING(room.identifier, 1, POSITION('-' IN room.identifier) - 1))
+                    WHEN room.identifier = CONCAT(#{userId}, '-', #{userId}) THEN
+                        (SELECT name FROM user WHERE user_id = #{user_id})
+                END
             ) roomName,
             last_message lastMessage,
             updated_at updatedAt,
@@ -79,6 +75,7 @@
             ) notReadCount
         FROM
             room
+        JOIN user ON user.user_id = #{userId}
         WHERE
             identifier like CONCAT(#{userId}, '-%')
         OR
