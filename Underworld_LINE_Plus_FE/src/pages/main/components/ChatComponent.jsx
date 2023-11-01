@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { List, Input, Button, Avatar } from "antd";
-import { SocketService } from "../../../service/SocketService";
+import SocketService from "../../../service/SocketService";
 import { axiosRequest } from "../../../service/AxiosService";
 
 const ChatComponent = ({
@@ -17,7 +17,10 @@ const ChatComponent = ({
   };
 
   const handleSendMessage = () => {
-    if (inputMessage) {
+    if (!/^[a-z0-9_-]{5,20}$/.test(inputMessage)) {
+      const trimMessage = inputMessage.trim();
+
+      SocketService.send(roomId, userId, trimMessage);
       setInputMessage("");
     }
   };
