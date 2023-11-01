@@ -34,7 +34,7 @@
         UPDATE
             room
         SET
-            last_message = #{lastMessage}
+            last_message = #{message}
         WHERE
             room_id = #{roomId}
     </update>
