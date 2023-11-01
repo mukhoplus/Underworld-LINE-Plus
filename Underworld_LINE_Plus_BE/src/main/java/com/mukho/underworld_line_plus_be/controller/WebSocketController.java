@@ -107,7 +107,7 @@ public class WebSocketController extends TextWebSocketHandler {
 
 		sessions.get(sendUserId).sendMessage(new TextMessage(objectMapper.writeValueAsString(sendUserDto)));
 		if (sessions.containsKey(receiveUserId)) {
-			sessions.get(receiveUserDto).sendMessage(new TextMessage(objectMapper.writeValueAsString(sendUserDto)));
+			sessions.get(receiveUserId).sendMessage(new TextMessage(objectMapper.writeValueAsString(receiveUserDto)));
 		}
 
 	}
