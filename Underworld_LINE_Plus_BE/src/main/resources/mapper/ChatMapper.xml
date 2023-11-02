@@ -12,7 +12,7 @@
         FROM
             chat
         WHERE
-            chat_id = #{chatId}
+            room_id = #{roomId}
         ORDER BY
             send_at
     </select>
