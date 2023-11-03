@@ -27,6 +27,11 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
+	public int sendSelfChat(SendChatDto sendChatDto) {
+		return chatMapper.sendSelfChat(sendChatDto);
+	}
+
+	@Override
 	public void readChat(SendChatDto sendChatDto) {
 		chatMapper.readChat(sendChatDto);
 	}

@@ -24,6 +24,13 @@
             (#{roomId}, #{sendUserId}, #{message}, 1)
     </insert>
 
+    <insert id="sendSelfChat">
+        INSERT INTO
+            chat(room_id, send_user_id, message, not_read)
+        VALUES
+            (#{roomId}, #{sendUserId}, #{message}, 0)
+    </insert>
+
     <update id="readChat">
         UPDATE
             chat
