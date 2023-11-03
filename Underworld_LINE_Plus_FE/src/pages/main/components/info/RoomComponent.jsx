@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Row, Col, Table } from "antd";
+import { Row, Col, Table, Badge } from "antd";
 
 const RoomComponent = ({ userId, setRoomId, roomList, handleRoomList }) => {
   useEffect(() => {
@@ -21,12 +21,19 @@ const RoomComponent = ({ userId, setRoomId, roomList, handleRoomList }) => {
       title: "마지막 메시지",
       dataIndex: "lastMessage" || "",
       key: "lastMessage",
+      render: (text) => {
+        const maxLength = 10;
+        return text.length > maxLength
+          ? `${text.slice(0, maxLength)}...`
+          : text;
+      },
     },
 
     {
       title: "안 읽은 메시지 수",
       dataIndex: "notReadCount",
       key: "notReadCount",
+      render: (notReadCount) => <Badge count={notReadCount} showZero></Badge>,
     },
   ];
   return (
