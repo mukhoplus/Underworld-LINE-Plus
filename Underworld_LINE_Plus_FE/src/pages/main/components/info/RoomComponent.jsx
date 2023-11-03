@@ -39,6 +39,7 @@ const RoomComponent = ({ userId, setRoomId, roomList, handleRoomList }) => {
             columns={columns}
             showHeader={false}
             pagination={false}
+            rowKey="roomId"
             onRow={(record) => ({
               onDoubleClick: () => setRoomId(record.roomId),
             })}

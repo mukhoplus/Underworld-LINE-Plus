@@ -49,6 +49,7 @@ const UserComponent = ({ userId, userList, setRoomId }) => {
             columns={columns}
             showHeader={false}
             pagination={false}
+            rowKey="userId"
             onRow={(record) => ({
               onDoubleClick: () => handleChatIdToRoomId(record.userId),
             })}
@@ -58,6 +59,7 @@ const UserComponent = ({ userId, userList, setRoomId }) => {
             columns={columns}
             showHeader={false}
             pagination={false}
+            rowKey="userId"
             onRow={(record) => ({
               onDoubleClick: () => handleChatIdToRoomId(record.userId),
             })}

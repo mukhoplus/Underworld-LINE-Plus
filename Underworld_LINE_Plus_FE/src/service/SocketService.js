@@ -1,3 +1,5 @@
+import store from "../redux/store";
+
 const SocketService = {
   socket: null,
 
@@ -7,10 +9,23 @@ const SocketService = {
     SocketService.socket.onopen = () => {};
 
     SocketService.socket.onmessage = (event) => {
+      const { userId, roomId } = store.getState();
+
       const data = JSON.parse(event.data);
       const { roomList, chatList } = data;
 
       setRoomList(roomList);
+
+      if (roomId === 0) return;
+
+      const roomIdInChatList = roomList.length ? roomList[0].roomId : 0;
+      if (roomId !== roomIdInChatList) return;
+
+      if (isInNotReadMessages(userId, chatList)) {
+        SocketService.read(roomId, userId);
+        return;
+      }
+
       setChatList(chatList);
     };
 
@@ -52,6 +67,12 @@ const SocketService = {
   close: () => {
     SocketService.socket.close();
   },
+};
+
+const isInNotReadMessages = (userId, newMessages) => {
+  return newMessages.some(
+    (message) => message.notRead === 1 && message.sendUserId !== userId
+  );
 };
 
 export default SocketService;

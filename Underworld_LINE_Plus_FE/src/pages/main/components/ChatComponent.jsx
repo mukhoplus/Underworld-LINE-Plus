@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Input, Button, Avatar } from "antd";
 import SocketService from "../../../service/SocketService";
 import { axiosRequest } from "../../../service/AxiosService";
@@ -12,6 +12,7 @@ const ChatComponent = ({
   setChatList,
 }) => {
   const [inputMessage, setInputMessage] = useState("");
+  const chatListRef = useRef(null);
 
   const handleInputChange = (e) => {
     setInputMessage(e.target.value);
@@ -38,7 +39,20 @@ const ChatComponent = ({
 
   useEffect(() => {
     handleChatList();
+    setInputMessage("");
+
+    if (chatListRef.current) {
+      const element = document.getElementById("chat-list");
+      element.scrollTop = element.scrollHeight;
+    }
   }, [roomId]);
+
+  useEffect(() => {
+    if (chatListRef.current) {
+      const element = document.getElementById("chat-list");
+      element.scrollTop = element.scrollHeight;
+    }
+  }, [chatList]);
 
   return (
     <>
@@ -48,6 +62,8 @@ const ChatComponent = ({
         ) : (
           <>
             <div
+              id="chat-list"
+              ref={chatListRef}
               className="custom-scroll"
               style={{
                 maxWidth: "400px",
@@ -58,46 +74,45 @@ const ChatComponent = ({
                 display: "flex",
                 flexDirection: "column",
                 overflowY: "auto",
+                scrollBehavior: "auto",
               }}
             >
-              {chatList.map((chat) => (
-                <>
+              {chatList.map((chat, index) => (
+                <div
+                  id={`line-${index}`}
+                  key={`line-${index}`}
+                  style={{
+                    alignSelf:
+                      chat.sendUserId === userId ? "flex-end" : "flex-start",
+                    maxWidth: "70%",
+                    display: "inline-flex",
+                    alignItems: "center",
+                  }}
+                >
+                  {chat.sendUserId !== userId && <Avatar />}
+                  {chat.sendUserId === userId &&
+                    chat.notRead !== 0 &&
+                    chat.notRead}
                   <div
+                    id={`message-${index}`}
+                    key={`message-${index}`}
                     style={{
                       alignSelf:
                         chat.sendUserId === userId ? "flex-end" : "flex-start",
-                      maxWidth: "70%",
-                      display: "inline-flex",
-                      alignItems: "center",
+                      margin: "4px",
+                      padding: "8px",
+                      background:
+                        chat.sendUserId === userId ? "#06c755" : "#e0e0e0",
+                      color: chat.sendUserId === userId ? "white" : "black",
+                      borderRadius: "8px",
                     }}
                   >
-                    {chat.sendUserId !== userId && <Avatar />}
-                    {chat.sendUserId === userId &&
-                      chat.notRead !== 0 &&
-                      chat.notRead}
-                    <div
-                      style={{
-                        alignSelf:
-                          chat.sendUserId === userId
-                            ? "flex-end"
-                            : "flex-start",
-
-                        margin: "4px",
-                        padding: "8px",
-                        background:
-                          chat.sendUserId === userId ? "#06c755" : "#e0e0e0",
-                        color: chat.sendUserId === userId ? "white" : "black",
-                        borderRadius: "8px",
-                      }}
-                      key={chat.id}
-                    >
-                      {chat.message}
-                    </div>
-                    {chat.sendUserId !== userId &&
-                      chat.notRead !== 0 &&
-                      chat.notRead}
+                    {chat.message}
                   </div>
-                </>
+                  {chat.sendUserId !== userId &&
+                    chat.notRead !== 0 &&
+                    chat.notRead}
+                </div>
               ))}
             </div>
             <div style={{ display: "flex" }}>
