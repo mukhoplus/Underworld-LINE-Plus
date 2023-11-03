@@ -66,7 +66,11 @@ const LoginComponent = ({ setPage, setUserId, setIsSession }) => {
           />
         </Form.Item>
         <Form.Item>
-          <Button type="primary" onClick={handleLogin}>
+          <Button
+            type="primary"
+            style={{ backgroundColor: "#06c755" }}
+            onClick={handleLogin}
+          >
             로그인
           </Button>
           <Button onClick={() => setPage(1)}>회원가입</Button>

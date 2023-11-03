@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { List, Input, Button, Avatar } from "antd";
+import { Input, Button, Avatar } from "antd";
 import SocketService from "../../../service/SocketService";
 import { axiosRequest } from "../../../service/AxiosService";
+import "./css/ChatComponent.css";
 
 const ChatComponent = ({
   userId,
@@ -31,6 +32,8 @@ const ChatComponent = ({
     axiosRequest("get", `/chat/${roomId}`).then((response) => {
       setChatList(response.data);
     });
+
+    SocketService.read(roomId, userId);
   };
 
   useEffect(() => {
@@ -45,30 +48,72 @@ const ChatComponent = ({
         ) : (
           <>
             <div
-              style={{ maxWidth: "400px", margin: "0 auto", padding: "20px" }}
+              className="custom-scroll"
+              style={{
+                maxWidth: "400px",
+                width: "400px",
+                height: "500px",
+                margin: "0 auto",
+                padding: "20px",
+                display: "flex",
+                flexDirection: "column",
+                overflowY: "auto",
+              }}
             >
-              <List
-                dataSource={chatList}
-                renderItem={(chat) => (
-                  <List.Item>
-                    <List.Item.Meta
-                      avatar={<Avatar />}
-                      title={chat.send_user_id}
-                      description={chat.message}
-                    />
-                  </List.Item>
-                )}
+              {chatList.map((chat) => (
+                <>
+                  <div
+                    style={{
+                      alignSelf:
+                        chat.sendUserId === userId ? "flex-end" : "flex-start",
+                      maxWidth: "70%",
+                      display: "inline-flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    {chat.sendUserId !== userId && <Avatar />}
+                    {chat.sendUserId === userId &&
+                      chat.notRead !== 0 &&
+                      chat.notRead}
+                    <div
+                      style={{
+                        alignSelf:
+                          chat.sendUserId === userId
+                            ? "flex-end"
+                            : "flex-start",
+
+                        margin: "4px",
+                        padding: "8px",
+                        background:
+                          chat.sendUserId === userId ? "#06c755" : "#e0e0e0",
+                        color: chat.sendUserId === userId ? "white" : "black",
+                        borderRadius: "8px",
+                      }}
+                      key={chat.id}
+                    >
+                      {chat.message}
+                    </div>
+                    {chat.sendUserId !== userId &&
+                      chat.notRead !== 0 &&
+                      chat.notRead}
+                  </div>
+                </>
+              ))}
+            </div>
+            <div style={{ display: "flex" }}>
+              <Input
+                placeholder=""
+                value={inputMessage}
+                onChange={handleInputChange}
+                style={{ flex: "1", marginRight: "10px" }}
               />
-              <div style={{ display: "flex" }}>
-                <Input
-                  placeholder="Type your message..."
-                  value={inputMessage}
-                  onChange={handleInputChange}
-                />
-                <Button type="primary" onClick={handleSendMessage}>
-                  전송
-                </Button>
-              </div>
+              <Button
+                type="primary"
+                style={{ backgroundColor: "#06c755" }}
+                onClick={handleSendMessage}
+              >
+                전송
+              </Button>
             </div>
           </>
         )}

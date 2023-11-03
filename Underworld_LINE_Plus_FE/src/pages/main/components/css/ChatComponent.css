@@ -1,0 +1,30 @@
+.custom-scroll {
+  /* 스크롤바 초기 상태 스타일 */
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+
+  /* 스크롤바 hover 상태 스타일 */
+  &:hover {
+    scrollbar-color: gray rgba(23, 107, 135, 0.1);
+    transition: scrollbar-color 0.5s; /* hover 상태가 천천히 변화하도록 설정 */
+  }
+
+  /* WebKit 스크롤바 스타일 (Chrome, Safari 등) */
+  &::-webkit-scrollbar {
+    width: 6px; /* 스크롤바 너비 */
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: transparent; /* 스크롤바 색상 */
+    border-radius: 10px; /* 둥근 스크롤바 모양 */
+  }
+
+  &:hover::-webkit-scrollbar-thumb {
+    background-color: gray; /* 스크롤바 hover 시 색상 변경 */
+    transition: scrollbar-color 0.5s; /* hover 상태가 천천히 변화하도록 설정 */
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent; /* 스크롤바 트랙 색상 */
+  }
+}
