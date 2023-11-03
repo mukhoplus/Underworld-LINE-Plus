@@ -11,6 +11,8 @@ public interface ChatService {
 
 	int sendChat(SendChatDto sendChatDto);
 
+	int sendSelfChat(SendChatDto sendChatDto);
+
 	void readChat(SendChatDto sendChatDto);
 
 }

@@ -14,6 +14,8 @@ public interface ChatMapper {
 
 	int sendChat(SendChatDto sendChatDto);
 
+	int sendSelfChat(SendChatDto sendChatDto);
+
 	void readChat(SendChatDto sendChatDto);
 
 }

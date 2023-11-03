@@ -81,19 +81,21 @@ public class WebSocketController extends TextWebSocketHandler {
 		SendChatDto sendChatDto = socketSendDto.getData();
 
 		int roomId = sendChatDto.getRoomId();
+		String identifier = roomService.getIdentifier(roomId);
 		int sendUserId = sendChatDto.getSendUserId();
+		int receiveUserId = getReceiveUserId(identifier, sendUserId);
 
 		if (socketSendDto.getType().equals("chat")) {
 			String message = sendChatDto.getMessage();
-
 			roomService.updateRoom(roomId, message);
-			chatService.sendChat(new SendChatDto(roomId, sendUserId, message));
+			if (sendUserId == receiveUserId) {
+				chatService.sendSelfChat(new SendChatDto(roomId, sendUserId, message));
+			} else {
+				chatService.sendChat(new SendChatDto(roomId, sendUserId, message));
+			}
 		} else {
 			chatService.readChat(new SendChatDto(roomId, sendUserId, ""));
 		}
-
-		String identifier = roomService.getIdentifier(roomId);
-		int receiveUserId = getReceiveUserId(identifier, sendUserId);
 
 		objectMapper = new ObjectMapper();
 		objectMapper.registerModule(new JavaTimeModule());
@@ -103,14 +105,13 @@ public class WebSocketController extends TextWebSocketHandler {
 
 		List<ChatDto> chatList = getChatList(roomId);
 
+		SocketResponseDto sendUserDto = new SocketResponseDto(sendRoomList, chatList);
+		sessions.get(sendUserId).sendMessage(new TextMessage(objectMapper.writeValueAsString(sendUserDto)));
+
 		if (sessions.containsKey(receiveUserId) && sessions.get(receiveUserId).isOpen()) {
-			chatService.readChat(new SendChatDto(roomId, receiveUserId, ""));
-			chatList = getChatList(roomId);
 			SocketResponseDto receiveUserDto = new SocketResponseDto(receiveRoomList, chatList);
 			sessions.get(receiveUserId).sendMessage(new TextMessage(objectMapper.writeValueAsString(receiveUserDto)));
 		}
-		SocketResponseDto sendUserDto = new SocketResponseDto(sendRoomList, chatList);
-		sessions.get(sendUserId).sendMessage(new TextMessage(objectMapper.writeValueAsString(sendUserDto)));
 	}
 
 	public int getReceiveUserId(String identifier, int sendUserId) {
