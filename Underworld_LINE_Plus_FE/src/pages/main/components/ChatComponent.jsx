@@ -84,7 +84,7 @@ const ChatComponent = ({
                   style={{
                     alignSelf:
                       chat.sendUserId === userId ? "flex-end" : "flex-start",
-                    maxWidth: "70%",
+                    maxWidth: "60%",
                     display: "inline-flex",
                     alignItems: "center",
                   }}
@@ -101,10 +101,12 @@ const ChatComponent = ({
                         chat.sendUserId === userId ? "flex-end" : "flex-start",
                       margin: "4px",
                       padding: "8px",
+                      maxWidth: chat.sendUserId !== userId ? "75%" : "100%",
                       background:
                         chat.sendUserId === userId ? "#06c755" : "#e0e0e0",
                       color: chat.sendUserId === userId ? "white" : "black",
                       borderRadius: "8px",
+                      whiteSpace: "pre-wrap",
                     }}
                   >
                     {chat.message}
@@ -116,11 +118,12 @@ const ChatComponent = ({
               ))}
             </div>
             <div style={{ display: "flex" }}>
-              <Input
+              <Input.TextArea
                 placeholder=""
                 value={inputMessage}
                 onChange={handleInputChange}
                 style={{ flex: "1", marginRight: "10px" }}
+                autoSize={{ minRows: 1, maxRows: 10 }}
               />
               <Button
                 type="primary"
