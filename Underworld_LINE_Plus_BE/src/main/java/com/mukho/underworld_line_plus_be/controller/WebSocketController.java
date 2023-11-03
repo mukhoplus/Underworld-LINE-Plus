@@ -100,16 +100,17 @@ public class WebSocketController extends TextWebSocketHandler {
 
 		List<RoomDto> sendRoomList = getRoomListByUserId(sendUserId);
 		List<RoomDto> receiveRoomList = getRoomListByUserId(receiveUserId);
+
 		List<ChatDto> chatList = getChatList(roomId);
 
-		SocketResponseDto sendUserDto = new SocketResponseDto(sendRoomList, chatList);
-		SocketResponseDto receiveUserDto = new SocketResponseDto(receiveRoomList, chatList);
-
-		sessions.get(sendUserId).sendMessage(new TextMessage(objectMapper.writeValueAsString(sendUserDto)));
-		if (sessions.containsKey(receiveUserId)) {
+		if (sessions.containsKey(receiveUserId) && sessions.get(receiveUserId).isOpen()) {
+			chatService.readChat(new SendChatDto(roomId, receiveUserId, ""));
+			chatList = getChatList(roomId);
+			SocketResponseDto receiveUserDto = new SocketResponseDto(receiveRoomList, chatList);
 			sessions.get(receiveUserId).sendMessage(new TextMessage(objectMapper.writeValueAsString(receiveUserDto)));
 		}
-
+		SocketResponseDto sendUserDto = new SocketResponseDto(sendRoomList, chatList);
+		sessions.get(sendUserId).sendMessage(new TextMessage(objectMapper.writeValueAsString(sendUserDto)));
 	}
 
 	public int getReceiveUserId(String identifier, int sendUserId) {
