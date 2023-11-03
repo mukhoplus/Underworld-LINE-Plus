@@ -34,6 +34,21 @@ const SocketService = {
     SocketService.socket.send(JSON.stringify(socketSendDto));
   },
 
+  read: (roomId, readUserId) => {
+    const sendChatDto = {
+      roomId,
+      sendUserId: readUserId,
+      message: "",
+    };
+
+    const socketSendDto = {
+      type: "read",
+      data: sendChatDto,
+    };
+
+    SocketService.socket.send(JSON.stringify(socketSendDto));
+  },
+
   close: () => {
     SocketService.socket.close();
   },

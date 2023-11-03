@@ -166,7 +166,11 @@ const SignupComponent = ({ setPage, setUserId, setIsSession }) => {
         </Form.Item>
         <Form.Item>
           <Button onClick={() => setPage(0)}>뒤로가기</Button>
-          <Button type="primary" onClick={handleSignup}>
+          <Button
+            type="primary"
+            style={{ backgroundColor: "#06c755" }}
+            onClick={handleSignup}
+          >
             회원가입
           </Button>
         </Form.Item>
