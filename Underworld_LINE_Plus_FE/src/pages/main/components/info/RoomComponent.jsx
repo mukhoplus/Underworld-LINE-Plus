@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Row, Col, Table, Badge } from "antd";
+import { getRoomDateTime } from "../../../../service/DateTimeService";
 
 const RoomComponent = ({ userId, setRoomId, roomList, handleRoomList }) => {
   useEffect(() => {
@@ -16,6 +17,9 @@ const RoomComponent = ({ userId, setRoomId, roomList, handleRoomList }) => {
       title: "수정 시간",
       dataIndex: "updatedAt",
       key: "updatedAt",
+      render: (updatedAt) => {
+        return getRoomDateTime(updatedAt);
+      },
     },
     {
       title: "마지막 메시지",
