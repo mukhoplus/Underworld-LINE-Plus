@@ -33,7 +33,8 @@ const RoomComponent = ({ userId, setRoomId, roomList, handleRoomList }) => {
       title: "안 읽은 메시지 수",
       dataIndex: "notReadCount",
       key: "notReadCount",
-      render: (notReadCount) => <Badge count={notReadCount} showZero></Badge>,
+      render: (notReadCount) =>
+        notReadCount ? <Badge count={notReadCount} showZero></Badge> : <></>,
     },
   ];
   return (
