@@ -14,6 +14,7 @@ import lombok.Setter;
 public class RoomDto {
 
 	int roomId;
+	int userId;
 	String roomName;
 	String lastMessage;
 	@JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "KST")
