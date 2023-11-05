@@ -65,7 +65,7 @@ const Main = ({
           <p>
             총 안 읽은 메시지 :{" "}
             {allNotReadCount ? (
-              <Badge count={allNotReadCount} showZero></Badge>
+              <Badge count={allNotReadCount} showZero />
             ) : (
               <></>
             )}

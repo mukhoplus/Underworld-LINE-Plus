@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Row, Col, Table } from "antd";
+import { Row, Col, Table, Badge } from "antd";
 import { axiosRequest } from "../../../../service/AxiosService";
 
 const UserComponent = ({ userId, userList, setRoomId }) => {
@@ -36,6 +36,23 @@ const UserComponent = ({ userId, userList, setRoomId }) => {
       title: "이름",
       dataIndex: "name",
       key: "name",
+      render: (text, record) => (
+        <>
+          {record.userId === userId ? (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <Badge count="나" style={{ backgroundColor: "gray" }} />
+              <span style={{ margin: "0 4px" }}>{text}</span>
+            </div>
+          ) : (
+            <>{text}</>
+          )}
+        </>
+      ),
     },
   ];
 
