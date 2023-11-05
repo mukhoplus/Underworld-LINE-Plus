@@ -54,6 +54,16 @@
             (
                 CASE
                     WHEN room.identifier LIKE CONCAT(#{userId}, '-%') THEN
+                        (SELECT user_id FROM user WHERE user_id = SUBSTRING(room.identifier, LENGTH(CONCAT(#{userId}, '-')) + 1))
+                    WHEN room.identifier LIKE CONCAT('%-', #{userId}) THEN
+                        (SELECT user_id FROM user WHERE user_id = SUBSTRING(room.identifier, 1, POSITION('-' IN room.identifier) - 1))
+                    WHEN room.identifier = CONCAT(#{userId}, '-', #{userId}) THEN
+                        (SELECT user_id FROM user WHERE user_id = #{user_id})
+                    END
+            ) userId,
+            (
+                CASE
+                    WHEN room.identifier LIKE CONCAT(#{userId}, '-%') THEN
                         (SELECT name FROM user WHERE user_id = SUBSTRING(room.identifier, LENGTH(CONCAT(#{userId}, '-')) + 1))
                     WHEN room.identifier LIKE CONCAT('%-', #{userId}) THEN
                         (SELECT name FROM user WHERE user_id = SUBSTRING(room.identifier, 1, POSITION('-' IN room.identifier) - 1))
@@ -75,7 +85,7 @@
             ) notReadCount
         FROM
             room
-        JOIN user ON user.user_id = #{userId}
+        JOIN user ON user_id = #{userId}
         WHERE
             identifier like CONCAT(#{userId}, '-%')
         OR
