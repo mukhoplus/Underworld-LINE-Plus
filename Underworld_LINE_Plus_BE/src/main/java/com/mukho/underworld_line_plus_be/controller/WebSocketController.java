@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,14 +100,13 @@ public class WebSocketController extends TextWebSocketHandler {
 		objectMapper.registerModule(new JavaTimeModule());
 
 		List<RoomDto> sendRoomList = getRoomListByUserId(sendUserId);
-		List<RoomDto> receiveRoomList = getRoomListByUserId(receiveUserId);
-
-		List<ChatDto> chatList = getChatList(roomId);
+		List<ChatDto> chatList = chatService.getChatList(roomId);
 
 		SocketResponseDto sendUserDto = new SocketResponseDto(sendRoomList, chatList);
 		sessions.get(sendUserId).sendMessage(new TextMessage(objectMapper.writeValueAsString(sendUserDto)));
 
 		if (sessions.containsKey(receiveUserId) && sessions.get(receiveUserId).isOpen()) {
+			List<RoomDto> receiveRoomList = getRoomListByUserId(receiveUserId);
 			SocketResponseDto receiveUserDto = new SocketResponseDto(receiveRoomList, chatList);
 			sessions.get(receiveUserId).sendMessage(new TextMessage(objectMapper.writeValueAsString(receiveUserDto)));
 		}
@@ -125,10 +123,6 @@ public class WebSocketController extends TextWebSocketHandler {
 
 	public List<RoomDto> getRoomListByUserId(int userId) {
 		return roomService.getRoomListByUserId(userId);
-	}
-
-	public List<ChatDto> getChatList(int roomId) {
-		return chatService.getChatList(roomId);
 	}
 
 }
