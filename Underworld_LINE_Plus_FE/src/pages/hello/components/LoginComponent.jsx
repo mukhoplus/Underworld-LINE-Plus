@@ -34,6 +34,11 @@ const LoginComponent = ({ setPage, setUserId, setIsSession }) => {
         return;
       }
 
+      if (response.data === "409 CONFLICT") {
+        await errorModal("로그인 실패", "다른 환경에서 이미 로그인 중입니다.");
+        return;
+      }
+
       await getSessionUserId(setUserId, setIsSession);
       setPage(0);
     });
