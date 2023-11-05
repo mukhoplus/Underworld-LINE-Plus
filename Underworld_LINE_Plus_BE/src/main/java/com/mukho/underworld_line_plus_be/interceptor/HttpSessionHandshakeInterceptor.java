@@ -1,4 +1,4 @@
-package com.mukho.underworld_line_plus_be.config;
+package com.mukho.underworld_line_plus_be.interceptor;
 
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
