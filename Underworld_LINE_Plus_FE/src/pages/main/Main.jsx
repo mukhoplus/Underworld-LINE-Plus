@@ -13,6 +13,12 @@ import InfoComponent from "./components/InfoComponent";
 import ChatComponent from "./components/ChatComponent";
 import { axiosRequest } from "../../service/AxiosService";
 
+const getRoomNameByRoomId = (roomList, roomId) => {
+  if (roomId === 0) return "";
+  const data = roomList.find((room) => room.roomId === roomId);
+  return data.roomName;
+};
+
 const getAllNotReadCount = (roomList) => {
   return roomList.reduce((acc, cur) => {
     return acc + cur.notReadCount;
@@ -57,11 +63,8 @@ const Main = ({
     <>
       <Row>
         <div>
-          <p>메인 : {userId}</p>
-          <p>유저 수 : {userList.length}</p>
-          <p>채팅방 수 : {roomList.length}</p>
-          <p>선택된 채팅방 번호 : {roomId}</p>
-          <p>채팅 수 : {chatList.length}</p>
+          <p>로그인 유저 아이디 : {userId}</p>
+          <p>선택된 채팅방 이름 : {getRoomNameByRoomId(roomList, roomId)}</p>
           <p>
             총 안 읽은 메시지 :{" "}
             {allNotReadCount ? (
