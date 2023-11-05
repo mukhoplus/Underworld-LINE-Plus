@@ -1,6 +1,6 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { Button, Row, Col } from "antd";
+import { Button, Row, Col, Badge } from "antd";
 import {
   setUserId,
   setUserList,
@@ -12,6 +12,12 @@ import SocketService from "../../service/SocketService";
 import InfoComponent from "./components/InfoComponent";
 import ChatComponent from "./components/ChatComponent";
 import { axiosRequest } from "../../service/AxiosService";
+
+const getAllNotReadCount = (roomList) => {
+  return roomList.reduce((acc, cur) => {
+    return acc + cur.notReadCount;
+  }, 0);
+};
 
 const mapDispatchToProps = (dispatch) => ({
   setUserId: (userId) => dispatch(setUserId(userId)),
@@ -33,6 +39,8 @@ const Main = ({
   setRoomId,
   setChatList,
 }) => {
+  const [allNotReadCount, setAllNotReadCount] = useState(0);
+
   useEffect(() => {
     SocketService.connect(
       "ws://localhost:8080/api/v1/socket",
@@ -40,6 +48,10 @@ const Main = ({
       setChatList
     );
   }, []);
+
+  useEffect(() => {
+    setAllNotReadCount(getAllNotReadCount(roomList));
+  }, [roomList]);
 
   return (
     <>
@@ -50,6 +62,14 @@ const Main = ({
           <p>채팅방 수 : {roomList.length}</p>
           <p>선택된 채팅방 번호 : {roomId}</p>
           <p>채팅 수 : {chatList.length}</p>
+          <p>
+            총 안 읽은 메시지 :{" "}
+            {allNotReadCount ? (
+              <Badge count={allNotReadCount} showZero></Badge>
+            ) : (
+              <></>
+            )}
+          </p>
         </div>
         <Button
           onClick={() => {

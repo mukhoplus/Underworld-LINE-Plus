@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Input, Button, Avatar } from "antd";
 import SocketService from "../../../service/SocketService";
 import { axiosRequest } from "../../../service/AxiosService";
+import { getChatDate, getChatTime } from "../../../service/DateTimeService";
 import "./css/ChatComponent.css";
 
 const ChatComponent = ({
@@ -84,36 +85,63 @@ const ChatComponent = ({
                   style={{
                     alignSelf:
                       chat.sendUserId === userId ? "flex-end" : "flex-start",
-                    maxWidth: "60%",
+                    maxWidth: "70%",
                     display: "inline-flex",
-                    alignItems: "center",
+                    alignItems: "flex-end",
                   }}
                 >
-                  {chat.sendUserId !== userId && <Avatar />}
-                  {chat.sendUserId === userId &&
-                    chat.notRead !== 0 &&
-                    chat.notRead}
+                  {chat.sendUserId !== userId && (
+                    <div style={{ paddingBottom: "5px" }}>
+                      <Avatar />
+                    </div>
+                  )}
+                  {chat.sendUserId === userId && (
+                    <p
+                      style={{
+                        margin: 0,
+                        paddingBottom: "5px",
+                        textAlign: "right",
+                        minWidth: "30%",
+                      }}
+                    >
+                      {chat.notRead !== 0 && chat.notRead}
+                      <br />
+                      {getChatTime(chat.sendAt)}
+                    </p>
+                  )}
                   <div
                     id={`message-${index}`}
                     key={`message-${index}`}
                     style={{
                       alignSelf:
                         chat.sendUserId === userId ? "flex-end" : "flex-start",
-                      margin: "4px",
-                      padding: "8px",
-                      maxWidth: chat.sendUserId !== userId ? "75%" : "100%",
+                      margin: "5px",
+                      padding: "10px",
+                      maxWidth: chat.sendUserId === userId ? "59%" : "55%",
                       background:
                         chat.sendUserId === userId ? "#06c755" : "#e0e0e0",
                       color: chat.sendUserId === userId ? "white" : "black",
                       borderRadius: "8px",
                       whiteSpace: "pre-wrap",
+                      overflowWrap: "break-word",
                     }}
                   >
                     {chat.message}
                   </div>
-                  {chat.sendUserId !== userId &&
-                    chat.notRead !== 0 &&
-                    chat.notRead}
+                  {chat.sendUserId !== userId && (
+                    <p
+                      style={{
+                        margin: 0,
+                        paddingBottom: "5px",
+                        textAlign: "left",
+                        minWidth: "30%",
+                      }}
+                    >
+                      {chat.notRead !== 0 && chat.notRead}
+                      <br />
+                      {getChatTime(chat.sendAt)}
+                    </p>
+                  )}
                 </div>
               ))}
             </div>

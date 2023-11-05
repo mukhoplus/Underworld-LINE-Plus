@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Row, Col, Table, Badge } from "antd";
+import { getRoomDateTime } from "../../../../service/DateTimeService";
 
 const RoomComponent = ({ userId, setRoomId, roomList, handleRoomList }) => {
   useEffect(() => {
@@ -16,6 +17,9 @@ const RoomComponent = ({ userId, setRoomId, roomList, handleRoomList }) => {
       title: "수정 시간",
       dataIndex: "updatedAt",
       key: "updatedAt",
+      render: (updatedAt) => {
+        return getRoomDateTime(updatedAt);
+      },
     },
     {
       title: "마지막 메시지",
@@ -33,7 +37,8 @@ const RoomComponent = ({ userId, setRoomId, roomList, handleRoomList }) => {
       title: "안 읽은 메시지 수",
       dataIndex: "notReadCount",
       key: "notReadCount",
-      render: (notReadCount) => <Badge count={notReadCount} showZero></Badge>,
+      render: (notReadCount) =>
+        notReadCount ? <Badge count={notReadCount} showZero></Badge> : <></>,
     },
   ];
   return (
