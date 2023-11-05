@@ -1,5 +1,7 @@
 package com.mukho.underworld_line_plus_be.controller;
 
+import java.util.HashMap;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -24,6 +26,8 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+
+	private HashMap<Integer, Integer> customSession = new HashMap<>();
 
 	public void setSession(HttpServletRequest request, LoginUserDto loginUserDto) {
 		HttpSession session = request.getSession();
@@ -74,7 +78,15 @@ public class UserController {
 				return ResponseEntity.ok().body(HttpStatus.UNAUTHORIZED.toString());
 			}
 
+			if (customSession.containsKey(loginUserDto.getUserId())) {
+				return ResponseEntity.ok().body(HttpStatus.CONFLICT.toString());
+			}
+
 			setSession(request, loginUserDto);
+			
+			int userId = loginUserDto.getUserId();
+			customSession.put(userId, userId);
+
 			return ResponseEntity.ok(loginUserDto);
 		} catch (Exception e) {
 			return ResponseEntity.internalServerError().build();
@@ -84,6 +96,8 @@ public class UserController {
 	@PostMapping("/logout")
 	public ResponseEntity<?> logout(HttpServletRequest request) {
 		HttpSession session = request.getSession();
+		LoginUserDto loginUserDto = (LoginUserDto) session.getAttribute("loginUser");
+		customSession.remove(loginUserDto.getUserId());
 		session.invalidate();
 		// 컴포넌트 이동 -> 소켓 세션 연결 끊기 -> 세션 정보 제거 : 버그 발견
 		return ResponseEntity.ok().build();
