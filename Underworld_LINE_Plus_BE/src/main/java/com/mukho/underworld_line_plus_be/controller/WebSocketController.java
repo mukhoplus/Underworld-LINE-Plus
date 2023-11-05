@@ -73,42 +73,46 @@ public class WebSocketController extends TextWebSocketHandler {
 
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage testMessage) throws Exception {
-		String receivedMessage = testMessage.getPayload();
-		ObjectMapper objectMapper = new ObjectMapper();
+		try {
+			String receivedMessage = testMessage.getPayload();
+			ObjectMapper objectMapper = new ObjectMapper();
 
-		SocketSendDto socketSendDto = objectMapper.readValue(receivedMessage, SocketSendDto.class);
-		SendChatDto sendChatDto = socketSendDto.getData();
+			SocketSendDto socketSendDto = objectMapper.readValue(receivedMessage, SocketSendDto.class);
+			SendChatDto sendChatDto = socketSendDto.getData();
 
-		int roomId = sendChatDto.getRoomId();
-		String identifier = roomService.getIdentifier(roomId);
-		int sendUserId = sendChatDto.getSendUserId();
-		int receiveUserId = getReceiveUserId(identifier, sendUserId);
+			int roomId = sendChatDto.getRoomId();
+			String identifier = roomService.getIdentifier(roomId);
+			int sendUserId = sendChatDto.getSendUserId();
+			int receiveUserId = getReceiveUserId(identifier, sendUserId);
 
-		if (socketSendDto.getType().equals("chat")) {
-			String message = sendChatDto.getMessage();
-			roomService.updateRoom(roomId, message);
-			if (sendUserId == receiveUserId) {
-				chatService.sendSelfChat(new SendChatDto(roomId, sendUserId, message));
+			if (socketSendDto.getType().equals("chat")) {
+				String message = sendChatDto.getMessage();
+				roomService.updateRoom(roomId, message);
+				if (sendUserId == receiveUserId) {
+					chatService.sendSelfChat(new SendChatDto(roomId, sendUserId, message));
+				} else {
+					chatService.sendChat(new SendChatDto(roomId, sendUserId, message));
+				}
 			} else {
-				chatService.sendChat(new SendChatDto(roomId, sendUserId, message));
+				chatService.readChat(new SendChatDto(roomId, sendUserId, ""));
 			}
-		} else {
-			chatService.readChat(new SendChatDto(roomId, sendUserId, ""));
-		}
 
-		objectMapper = new ObjectMapper();
-		objectMapper.registerModule(new JavaTimeModule());
+			objectMapper = new ObjectMapper();
+			objectMapper.registerModule(new JavaTimeModule());
 
-		List<RoomDto> sendRoomList = getRoomListByUserId(sendUserId);
-		List<ChatDto> chatList = chatService.getChatList(roomId);
+			List<RoomDto> sendRoomList = getRoomListByUserId(sendUserId);
+			List<ChatDto> chatList = chatService.getChatList(roomId);
 
-		SocketResponseDto sendUserDto = new SocketResponseDto(sendRoomList, chatList);
-		sessions.get(sendUserId).sendMessage(new TextMessage(objectMapper.writeValueAsString(sendUserDto)));
+			SocketResponseDto sendUserDto = new SocketResponseDto(sendRoomList, chatList);
+			sessions.get(sendUserId).sendMessage(new TextMessage(objectMapper.writeValueAsString(sendUserDto)));
 
-		if (sessions.containsKey(receiveUserId) && sessions.get(receiveUserId).isOpen()) {
-			List<RoomDto> receiveRoomList = getRoomListByUserId(receiveUserId);
-			SocketResponseDto receiveUserDto = new SocketResponseDto(receiveRoomList, chatList);
-			sessions.get(receiveUserId).sendMessage(new TextMessage(objectMapper.writeValueAsString(receiveUserDto)));
+			if (sessions.containsKey(receiveUserId) && sessions.get(receiveUserId).isOpen()) {
+				List<RoomDto> receiveRoomList = getRoomListByUserId(receiveUserId);
+				SocketResponseDto receiveUserDto = new SocketResponseDto(receiveRoomList, chatList);
+				sessions.get(receiveUserId).sendMessage(new TextMessage(objectMapper.writeValueAsString(receiveUserDto)));
+			}
+		} catch (Exception e) {
+
 		}
 	}
 
