@@ -12,6 +12,23 @@ const RoomComponent = ({ userId, setRoomId, roomList, handleRoomList }) => {
       title: "이름",
       dataIndex: "roomName",
       key: "roomName",
+      render: (text, record) => (
+        <>
+          {record.userId === userId ? (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <Badge count="나" style={{ backgroundColor: "gray" }} />
+              <span style={{ margin: "0 4px" }}>{text}</span>
+            </div>
+          ) : (
+            <>{text}</>
+          )}
+        </>
+      ),
     },
     {
       title: "수정 시간",
@@ -38,7 +55,7 @@ const RoomComponent = ({ userId, setRoomId, roomList, handleRoomList }) => {
       dataIndex: "notReadCount",
       key: "notReadCount",
       render: (notReadCount) =>
-        notReadCount ? <Badge count={notReadCount} showZero></Badge> : <></>,
+        notReadCount ? <Badge count={notReadCount} showZero /> : <></>,
     },
   ];
   return (
