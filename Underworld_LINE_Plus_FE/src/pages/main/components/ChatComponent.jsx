@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Input, Button, Avatar } from "antd";
+import { ArrowLeftOutlined } from "@ant-design/icons";
 import SocketService from "../../../service/SocketService";
 import { axiosRequest } from "../../../service/AxiosService";
 import { getChatDate, getChatTime } from "../../../service/DateTimeService";
@@ -10,6 +11,7 @@ const ChatComponent = ({
   roomId,
   setRoomId,
   chatList,
+  roomList,
   setChatList,
 }) => {
   const [inputMessage, setInputMessage] = useState("");
@@ -38,6 +40,19 @@ const ChatComponent = ({
     SocketService.read(roomId, userId);
   };
 
+  const getRoomNameByRoomId = (roomList, roomId) => {
+    if (roomId === 0) return "";
+    const data = roomList.find((room) => room.roomId === roomId);
+    return data.roomName;
+  };
+
+  const handleLongRoomName = (roomName) => {
+    const maxLength = 16;
+    return roomName.length > maxLength
+      ? `${roomName.slice(0, maxLength)}...`
+      : roomName;
+  };
+
   useEffect(() => {
     handleChatList();
     setInputMessage("");
@@ -59,107 +74,112 @@ const ChatComponent = ({
     <>
       <div>
         {roomId === 0 ? (
-          <>빈화면</>
+          <>
+            <div className="chat-component">
+              <div className="chat-list"></div>
+            </div>
+          </>
         ) : (
           <>
-            <div
-              id="chat-list"
-              ref={chatListRef}
-              className="custom-scroll"
-              style={{
-                maxWidth: "400px",
-                width: "400px",
-                height: "500px",
-                margin: "0 auto",
-                padding: "20px",
-                display: "flex",
-                flexDirection: "column",
-                overflowY: "auto",
-                scrollBehavior: "auto",
-              }}
-            >
-              {chatList.map((chat, index) => (
-                <div
-                  id={`line-${index}`}
-                  key={`line-${index}`}
-                  style={{
-                    alignSelf:
-                      chat.sendUserId === userId ? "flex-end" : "flex-start",
-                    maxWidth: "70%",
-                    display: "inline-flex",
-                    alignItems: "flex-end",
-                  }}
-                >
-                  {chat.sendUserId !== userId && (
-                    <div style={{ paddingBottom: "5px" }}>
-                      <Avatar />
-                    </div>
-                  )}
-                  {chat.sendUserId === userId && (
-                    <p
-                      style={{
-                        margin: 0,
-                        paddingBottom: "5px",
-                        textAlign: "right",
-                        minWidth: "30%",
-                      }}
-                    >
-                      {chat.notRead !== 0 && chat.notRead}
-                      <br />
-                      {getChatTime(chat.sendAt)}
-                    </p>
-                  )}
+            <div className="chat-component">
+              <div className="btn-icon temp">
+                <Button className="btn" onClick={() => setRoomId(0)}>
+                  <ArrowLeftOutlined className="icon" />
+                </Button>
+                <span className="room-name">
+                  {handleLongRoomName(getRoomNameByRoomId(roomList, roomId))}
+                </span>
+              </div>
+              <div
+                id="chat-list"
+                ref={chatListRef}
+                className="custom-scroll chat-list"
+              >
+                {chatList.map((chat, index) => (
                   <div
-                    id={`message-${index}`}
-                    key={`message-${index}`}
+                    id={`line-${index}`}
+                    key={`line-${index}`}
                     style={{
                       alignSelf:
                         chat.sendUserId === userId ? "flex-end" : "flex-start",
-                      margin: "5px",
-                      padding: "10px",
-                      maxWidth: chat.sendUserId === userId ? "59%" : "55%",
-                      background:
-                        chat.sendUserId === userId ? "#06c755" : "#e0e0e0",
-                      color: chat.sendUserId === userId ? "white" : "black",
-                      borderRadius: "8px",
-                      whiteSpace: "pre-wrap",
-                      overflowWrap: "break-word",
+                      maxWidth: "70%",
+                      display: "inline-flex",
+                      alignItems: "flex-end",
                     }}
                   >
-                    {chat.message}
-                  </div>
-                  {chat.sendUserId !== userId && (
-                    <p
+                    {chat.sendUserId !== userId && (
+                      <div style={{ paddingBottom: "5px" }}>
+                        <Avatar />
+                      </div>
+                    )}
+                    {chat.sendUserId === userId && (
+                      <p
+                        style={{
+                          margin: 0,
+                          paddingBottom: "5px",
+                          textAlign: "right",
+                          minWidth: "30%",
+                        }}
+                      >
+                        {chat.notRead !== 0 && chat.notRead}
+                        <br />
+                        {getChatTime(chat.sendAt)}
+                      </p>
+                    )}
+                    <div
+                      id={`message-${index}`}
+                      key={`message-${index}`}
                       style={{
-                        margin: 0,
-                        paddingBottom: "5px",
-                        textAlign: "left",
-                        minWidth: "30%",
+                        alignSelf:
+                          chat.sendUserId === userId
+                            ? "flex-end"
+                            : "flex-start",
+                        margin: "5px",
+                        padding: "10px",
+                        maxWidth: chat.sendUserId === userId ? "59%" : "55%",
+                        background:
+                          chat.sendUserId === userId ? "#06c755" : "#e0e0e0",
+                        color: chat.sendUserId === userId ? "white" : "black",
+                        borderRadius: "8px",
+                        whiteSpace: "pre-wrap",
+                        overflowWrap: "break-word",
                       }}
                     >
-                      {chat.notRead !== 0 && chat.notRead}
-                      <br />
-                      {getChatTime(chat.sendAt)}
-                    </p>
-                  )}
-                </div>
-              ))}
-            </div>
-            <div style={{ display: "flex" }}>
-              <Input.TextArea
-                placeholder=""
-                value={inputMessage}
-                onChange={handleInputChange}
-                style={{ flex: "1", marginRight: "10px" }}
-                autoSize={{ minRows: 1, maxRows: 10 }}
-              />
-              <Button
-                type="primary"
-                style={{ backgroundColor: "#06c755" }}
-                onClick={handleSendMessage}
-              >
-                전송
-              </Button>
+                      {chat.message}
+                    </div>
+                    {chat.sendUserId !== userId && (
+                      <p
+                        style={{
+                          margin: 0,
+                          paddingBottom: "5px",
+                          textAlign: "left",
+                          minWidth: "30%",
+                        }}
+                      >
+                        {chat.notRead !== 0 && chat.notRead}
+                        <br />
+                        {getChatTime(chat.sendAt)}
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
+              <div style={{ display: "flex" }}>
+                <Input.TextArea
+                  placeholder=""
+                  value={inputMessage}
+                  onChange={handleInputChange}
+                  style={{ flex: "1", marginRight: "10px" }}
+                  autoSize={{ minRows: 1, maxRows: 10 }}
+                />
+                <Button
+                  type="primary"
+                  style={{ backgroundColor: "#06c755" }}
+                  onClick={handleSendMessage}
+                >
+                  전송
+                </Button>
+              </div>
             </div>
           </>
         )}

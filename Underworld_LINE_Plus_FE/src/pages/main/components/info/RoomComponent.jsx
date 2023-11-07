@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Row, Col, Table, Badge } from "antd";
+import { Row, Col, Table, Avatar, Badge } from "antd";
 import { getRoomDateTime } from "../../../../service/DateTimeService";
 
 const RoomComponent = ({ userId, setRoomId, roomList, handleRoomList }) => {
@@ -13,21 +13,22 @@ const RoomComponent = ({ userId, setRoomId, roomList, handleRoomList }) => {
       dataIndex: "roomName",
       key: "roomName",
       render: (text, record) => (
-        <>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <Avatar style={{ marginRight: "6px" }} />
           {record.userId === userId ? (
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <Badge count="나" style={{ backgroundColor: "gray" }} />
+            <>
+              <Badge count="나" style={{ backgroundColor: "#06c755" }} />
               <span style={{ margin: "0 4px" }}>{text}</span>
-            </div>
+            </>
           ) : (
             <>{text}</>
           )}
-        </>
+        </div>
       ),
     },
     {
@@ -54,13 +55,12 @@ const RoomComponent = ({ userId, setRoomId, roomList, handleRoomList }) => {
       title: "안 읽은 메시지 수",
       dataIndex: "notReadCount",
       key: "notReadCount",
-      render: (notReadCount) =>
-        notReadCount ? <Badge count={notReadCount} showZero /> : <></>,
+      render: (notReadCount) => <Badge count={notReadCount} />,
     },
   ];
+
   return (
     <>
-      <div>채팅방 목록</div>
       <Row>
         <Col>
           <Table

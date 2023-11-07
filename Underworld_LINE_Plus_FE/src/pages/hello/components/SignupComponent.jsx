@@ -1,10 +1,17 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Form, Input, Button } from "antd";
-import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
+import {
+  EyeInvisibleOutlined,
+  EyeOutlined,
+  IdcardOutlined,
+  UserOutlined,
+  LockOutlined,
+} from "@ant-design/icons";
 import { warningModal } from "../../../service/ModalService";
 import { getSessionUserId } from "../../../service/SessionService";
 import { axiosRequest } from "../../../service/AxiosService";
+import "../css/HelloComponent.css";
 
 const SignupComponent = ({ setPage, setUserId, setIsSession }) => {
   const [id, setId] = useState("");
@@ -39,10 +46,9 @@ const SignupComponent = ({ setPage, setUserId, setIsSession }) => {
 
   return (
     <>
-      <h3>회원가입</h3>
-      <Form labelCol={6} wrapperCol={12} style={{ width: "500px" }}>
+      <Form className="signup-form">
+        <h1 style={{ textAlign: "center", color: "#06c755" }}>회원가입</h1>
         <Form.Item
-          label="아이디"
           name="id"
           rules={[
             {
@@ -73,13 +79,13 @@ const SignupComponent = ({ setPage, setUserId, setIsSession }) => {
           ]}
         >
           <Input
+            prefix={<IdcardOutlined />}
             placeholder="아이디"
             onChange={(event) => setId(event.target.value)}
             maxLength={20}
           />
         </Form.Item>
         <Form.Item
-          label="비밀번호"
           name="password"
           rules={[
             {
@@ -92,7 +98,7 @@ const SignupComponent = ({ setPage, setUserId, setIsSession }) => {
                 if (!/^[a-zA-Z0-9_\-!@#$%^&*]{8,16}$/.test(value)) {
                   setIsPasswordOk(false);
                   return Promise.reject(
-                    "8~16자의 영어 대/소문자, 숫자, 특수문자만 사용 가능합니다."
+                    "8-16자의 영어, 숫자, 특수문자만 사용 가능합니다."
                   );
                 }
 
@@ -115,6 +121,7 @@ const SignupComponent = ({ setPage, setUserId, setIsSession }) => {
         >
           <Input
             type={passwordVisible ? "text" : "password"}
+            prefix={<LockOutlined />}
             placeholder="비밀번호"
             onChange={(event) => setPassword(event.target.value)}
             maxLength={16}
@@ -128,7 +135,6 @@ const SignupComponent = ({ setPage, setUserId, setIsSession }) => {
           />
         </Form.Item>
         <Form.Item
-          label="이름"
           name="name"
           rules={[
             {
@@ -141,7 +147,7 @@ const SignupComponent = ({ setPage, setUserId, setIsSession }) => {
                 if (!/^[가-힣A-Za-z]{1,40}$/.test(value)) {
                   setIsNameOk(false);
                   return Promise.reject(
-                    "1~40자의 한글, 영문 대/소문자를 사용해 주세요. (특수기호, 공백 사용 불가)"
+                    "1~40자의 한글, 영문 대/소문자를 사용해 주세요."
                   );
                 }
 
@@ -159,16 +165,24 @@ const SignupComponent = ({ setPage, setUserId, setIsSession }) => {
           ]}
         >
           <Input
+            prefix={<UserOutlined />}
             placeholder="이름"
             onChange={(event) => setName(event.target.value)}
             maxLength={40}
           />
         </Form.Item>
-        <Form.Item>
-          <Button onClick={() => setPage(0)}>뒤로가기</Button>
+        <Form.Item className="form-btn">
+          <Button
+            className="btn"
+            style={{ border: "1px solid lightgray" }}
+            onClick={() => setPage(0)}
+          >
+            뒤로가기
+          </Button>
           <Button
             type="primary"
-            style={{ backgroundColor: "#06c755" }}
+            className="btn"
+            style={{ backgroundColor: "#06c755", marginLeft: "60px" }}
             onClick={handleSignup}
           >
             회원가입
