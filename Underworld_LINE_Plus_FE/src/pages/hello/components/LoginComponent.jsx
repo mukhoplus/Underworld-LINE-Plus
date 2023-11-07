@@ -1,9 +1,15 @@
 import React, { useState } from "react";
 import { Form, Input, Button } from "antd";
-import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
+import {
+  EyeInvisibleOutlined,
+  EyeOutlined,
+  IdcardOutlined,
+  LockOutlined,
+} from "@ant-design/icons";
 import { warningModal, errorModal } from "../../../service/ModalService";
 import { getSessionUserId } from "../../../service/SessionService";
 import { axiosRequest } from "../../../service/AxiosService";
+import "../css/HelloComponent.css";
 
 const LoginComponent = ({ setPage, setUserId, setIsSession }) => {
   const [id, setId] = useState("");
@@ -46,18 +52,22 @@ const LoginComponent = ({ setPage, setUserId, setIsSession }) => {
 
   return (
     <>
-      <h3>로그인</h3>
-      <Form labelCol={6} wrapperCol={12} style={{ width: "500px" }}>
-        <Form.Item label="아이디" name="id">
+      <Form className="login-form">
+        <h1 style={{ textAlign: "center", color: "#06c755" }}>
+          Underworld-LINE
+        </h1>
+        <Form.Item name="id">
           <Input
+            prefix={<IdcardOutlined />}
             placeholder="아이디"
             onChange={(event) => setId(event.target.value)}
             maxLength={20}
           />
         </Form.Item>
-        <Form.Item label="비밀번호" name="password">
+        <Form.Item name="password">
           <Input
             type={passwordVisible ? "text" : "password"}
+            prefix={<LockOutlined />}
             placeholder="비밀번호"
             onChange={(event) => setPassword(event.target.value)}
             maxLength={16}
@@ -70,15 +80,22 @@ const LoginComponent = ({ setPage, setUserId, setIsSession }) => {
             }
           />
         </Form.Item>
-        <Form.Item>
+        <Form.Item className="form-btn">
           <Button
             type="primary"
-            style={{ backgroundColor: "#06c755" }}
+            className="btn"
+            style={{ backgroundColor: "#06c755", marginRight: "60px" }}
             onClick={handleLogin}
           >
             로그인
           </Button>
-          <Button onClick={() => setPage(1)}>회원가입</Button>
+          <Button
+            className="btn"
+            style={{ border: "1px solid lightgray" }}
+            onClick={() => setPage(1)}
+          >
+            회원가입
+          </Button>
         </Form.Item>
       </Form>
     </>

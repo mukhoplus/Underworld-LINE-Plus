@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Row, Col, Table, Badge } from "antd";
+import { Row, Col, Table, Badge, Avatar } from "antd";
 import { axiosRequest } from "../../../../service/AxiosService";
 
 const UserComponent = ({ userId, userList, setRoomId }) => {
@@ -37,42 +37,32 @@ const UserComponent = ({ userId, userList, setRoomId }) => {
       dataIndex: "name",
       key: "name",
       render: (text, record) => (
-        <>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <Avatar style={{ marginRight: "6px" }} />
           {record.userId === userId ? (
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <Badge count="나" style={{ backgroundColor: "gray" }} />
+            <>
+              <Badge count="나" style={{ backgroundColor: "#06c755" }} />
               <span style={{ margin: "0 4px" }}>{text}</span>
-            </div>
+            </>
           ) : (
             <>{text}</>
           )}
-        </>
+        </div>
       ),
     },
   ];
 
   return (
     <>
-      <div>사용자 정보</div>
       <Row>
         <Col>
           <Table
-            dataSource={[{ ...myInfo }]}
-            columns={columns}
-            showHeader={false}
-            pagination={false}
-            rowKey="userId"
-            onRow={(record) => ({
-              onDoubleClick: () => handleChatIdToRoomId(record.userId),
-            })}
-          />
-          <Table
-            dataSource={[...friendInfo]}
+            dataSource={[{ ...myInfo }, ...friendInfo]}
             columns={columns}
             showHeader={false}
             pagination={false}

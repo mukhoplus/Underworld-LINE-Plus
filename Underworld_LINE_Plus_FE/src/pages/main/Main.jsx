@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { Button, Row, Col, Badge } from "antd";
+import { Row, Col } from "antd";
 import {
   setUserId,
   setUserList,
@@ -11,13 +11,7 @@ import {
 import SocketService from "../../service/SocketService";
 import InfoComponent from "./components/InfoComponent";
 import ChatComponent from "./components/ChatComponent";
-import { axiosRequest } from "../../service/AxiosService";
-
-const getRoomNameByRoomId = (roomList, roomId) => {
-  if (roomId === 0) return "";
-  const data = roomList.find((room) => room.roomId === roomId);
-  return data.roomName;
-};
+import "../css/Main.css";
 
 const getAllNotReadCount = (roomList) => {
   return roomList.reduce((acc, cur) => {
@@ -62,46 +56,25 @@ const Main = ({
   return (
     <>
       <Row>
-        <div>
-          <p>로그인 유저 아이디 : {userId}</p>
-          <p>선택된 채팅방 이름 : {getRoomNameByRoomId(roomList, roomId)}</p>
-          <p>
-            총 안 읽은 메시지 :{" "}
-            {allNotReadCount ? (
-              <Badge count={allNotReadCount} showZero />
-            ) : (
-              <></>
-            )}
-          </p>
-        </div>
-        <Button
-          onClick={() => {
-            axiosRequest("post", "/user/logout").then(() => {
-              setUserId(0);
-              SocketService.close();
-            });
-          }}
-        >
-          로그아웃인것
-        </Button>
-      </Row>
-      <Row>
-        <Col>
+        <Col className="component">
           <InfoComponent
             userId={userId}
+            setUserId={setUserId}
             userList={userList}
             setUserList={setUserList}
             setRoomId={setRoomId}
             roomList={roomList}
             setRoomList={setRoomList}
+            allNotReadCount={allNotReadCount}
           />
         </Col>
-        <Col>
+        <Col className="component">
           <ChatComponent
             userId={userId}
             roomId={roomId}
             setRoomId={setRoomId}
             chatList={chatList}
+            roomList={roomList}
             setChatList={setChatList}
           />
         </Col>
