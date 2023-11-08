@@ -24,7 +24,8 @@ public class WebSocketConfig implements WebSocketConfigurer {
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
 		registry.addHandler(new WebSocketController(roomService, chatService), "/socket")
-				.setAllowedOrigins("*");
+			.setAllowedOrigins("*")
+			.addInterceptors(new HttpSessionHandshakeInterceptor());
 	}
 
 }
