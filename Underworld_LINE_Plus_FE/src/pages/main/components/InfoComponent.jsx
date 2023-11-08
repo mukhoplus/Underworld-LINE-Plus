@@ -19,21 +19,38 @@ const InfoComponent = ({
   setRoomId,
   roomList,
   setRoomList,
+  setChatList,
   allNotReadCount,
 }) => {
   const [menu, setMenu] = useState(0);
 
   const handleUserList = async () => {
-    axiosRequest("get", "/user/list").then((response) => {
-      const data = response.data;
-      setUserList(data);
-    });
+    axiosRequest("get", "/user/list")
+      .then((response) => {
+        const data = response.data;
+        setUserList(data);
+      })
+      .catch(() => {
+        resetStates();
+      });
   };
 
   const handleRoomList = async () => {
-    axiosRequest("get", `/room/list/${userId}`).then((response) => {
-      setRoomList(response.data);
-    });
+    axiosRequest("get", `/room/list/${userId}`)
+      .then((response) => {
+        setRoomList(response.data);
+      })
+      .catch(() => {
+        resetStates();
+      });
+  };
+
+  const resetStates = () => {
+    setUserId(0);
+    setUserList([]);
+    setRoomId(0);
+    setRoomList([]);
+    setChatList([]);
   };
 
   useEffect(() => {
@@ -70,10 +87,14 @@ const InfoComponent = ({
             <Button
               className="btn-icon"
               onClick={() => {
-                axiosRequest("post", "/user/logout").then(() => {
-                  setUserId(0);
-                  SocketService.close();
-                });
+                axiosRequest("post", "/user/logout")
+                  .then(() => {
+                    SocketService.close();
+                  })
+                  .catch()
+                  .finally(() => {
+                    resetStates();
+                  });
               }}
             >
               <LogoutOutlined className="icon" />

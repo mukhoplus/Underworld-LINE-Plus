@@ -54,8 +54,8 @@ const ChatComponent = ({
   };
 
   useEffect(() => {
-    handleChatList();
     setInputMessage("");
+    handleChatList();
 
     if (chatListRef.current) {
       const element = document.getElementById("chat-list");

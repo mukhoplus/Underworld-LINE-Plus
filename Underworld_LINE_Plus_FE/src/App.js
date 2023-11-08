@@ -10,7 +10,6 @@ const mapStateToProps = (state) => {
     userId: state.userId,
     userList: state.userList,
     roomList: state.roomList,
-    chatId: state.chatId,
     roomId: state.roomId,
     chatList: state.chatList,
   };
@@ -20,15 +19,7 @@ const mapDispatchToProps = (dispatch) => ({
   setUserId: (id) => dispatch(setUserId(id)),
 });
 
-const App = ({
-  userId,
-  setUserId,
-  userList,
-  roomList,
-  chatId,
-  roomId,
-  chatList,
-}) => {
+const App = ({ userId, setUserId, userList, roomList, roomId, chatList }) => {
   const [isSession, setIsSession] = useState(false);
 
   useEffect(() => {
@@ -45,7 +36,6 @@ const App = ({
           userId={userId}
           userList={userList}
           roomList={roomList}
-          chatId={chatId}
           roomId={roomId}
           chatList={chatList}
         />
