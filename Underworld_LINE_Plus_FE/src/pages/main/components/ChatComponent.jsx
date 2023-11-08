@@ -43,6 +43,8 @@ const ChatComponent = ({
   const getRoomNameByRoomId = (roomList, roomId) => {
     if (roomId === 0) return "";
     const data = roomList.find((room) => room.roomId === roomId);
+
+    if (!data) return "";
     return data.roomName;
   };
 
