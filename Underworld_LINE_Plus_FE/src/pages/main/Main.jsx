@@ -51,7 +51,7 @@ const Main = ({
 
   useEffect(() => {
     setAllNotReadCount(getAllNotReadCount(roomList));
-  }, [roomList]);
+  }, [roomList, chatList]);
 
   return (
     <>
@@ -65,6 +65,7 @@ const Main = ({
             setRoomId={setRoomId}
             roomList={roomList}
             setRoomList={setRoomList}
+            setChatList={setChatList}
             allNotReadCount={allNotReadCount}
           />
         </Col>
