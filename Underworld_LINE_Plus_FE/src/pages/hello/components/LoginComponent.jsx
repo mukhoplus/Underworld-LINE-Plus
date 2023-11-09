@@ -83,14 +83,14 @@ const LoginComponent = ({ setPage, setUserId, setIsSession }) => {
         <Form.Item className="form-btn">
           <Button
             type="primary"
-            className="btn"
+            className="hello-btn"
             style={{ backgroundColor: "#06c755", marginRight: "60px" }}
             onClick={handleLogin}
           >
             로그인
           </Button>
           <Button
-            className="btn"
+            className="hello-btn"
             style={{ border: "1px solid lightgray" }}
             onClick={() => setPage(1)}
           >

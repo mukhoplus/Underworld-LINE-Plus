@@ -173,7 +173,7 @@ const SignupComponent = ({ setPage, setUserId, setIsSession }) => {
         </Form.Item>
         <Form.Item className="form-btn">
           <Button
-            className="btn"
+            className="hello-btn"
             style={{ border: "1px solid lightgray" }}
             onClick={() => setPage(0)}
           >
@@ -181,7 +181,7 @@ const SignupComponent = ({ setPage, setUserId, setIsSession }) => {
           </Button>
           <Button
             type="primary"
-            className="btn"
+            className="hello-btn"
             style={{ backgroundColor: "#06c755", marginLeft: "60px" }}
             onClick={handleSignup}
           >
