@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { axiosRequest } from "../../../../service/AxiosService";
+import { axiosRequest } from "../../../../../service/AxiosService";
 import UserInfo from "./UserInfo";
 
 const UserComponent = ({ userId, userList, setRoomId }) => {

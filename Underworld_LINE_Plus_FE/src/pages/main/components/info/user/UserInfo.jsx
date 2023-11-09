@@ -1,7 +1,7 @@
 import { Badge, Avatar } from "antd";
-import { LongStringUtil } from "../../../../utils/LongStringUtil";
-import "../css/UserInfo.css";
-import "../css/ChatComponent.css";
+import { LongStringUtil } from "../../../../../utils/LongStringUtil";
+import "../../css/UserInfo.css";
+import "../../css/ChatComponent.css";
 
 const UserInfo = ({ userId, userInfo, handleChatIdToRoomId }) => {
   return (

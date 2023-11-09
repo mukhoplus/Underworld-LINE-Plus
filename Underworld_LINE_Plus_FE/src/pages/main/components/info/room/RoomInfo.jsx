@@ -1,8 +1,8 @@
 import { Avatar, Badge } from "antd";
-import { getRoomDateTime } from "../../../../utils/DateTimeUtil";
-import { LongStringUtil } from "../../../../utils/LongStringUtil";
-import "../css/RoomInfo.css";
-import "../css/ChatComponent.css";
+import { getRoomDateTime } from "../../../../../utils/DateTimeUtil";
+import { LongStringUtil } from "../../../../../utils/LongStringUtil";
+import "../../css/RoomInfo.css";
+import "../../css/ChatComponent.css";
 
 const RoomInfo = ({ userId, roomList, setRoomId }) => {
   return (
