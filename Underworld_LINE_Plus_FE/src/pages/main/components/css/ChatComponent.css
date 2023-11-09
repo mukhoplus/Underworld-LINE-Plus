@@ -74,6 +74,11 @@
   white-space: nowrap;
 }
 
+.chat-line {
+  display: flex;
+  flex-direction: column;
+}
+
 .date-line {
   display: flex;
   justify-content: center;

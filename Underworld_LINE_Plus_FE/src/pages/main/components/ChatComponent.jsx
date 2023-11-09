@@ -129,7 +129,7 @@ const ChatComponent = ({
                 className="custom-scroll chat-list"
               >
                 {chatList.map((chat, index) => (
-                  <>
+                  <div className="chat-line" key={`chat-${index}`}>
                     {!isChatDateInDateOutput(chat.sendAt) && (
                       <div className="date-line" key={`date-${index}`}>
                         <span className="chat-date">
@@ -205,7 +205,7 @@ const ChatComponent = ({
                         </p>
                       )}
                     </div>
-                  </>
+                  </div>
                 ))}
               </div>
               <div style={{ display: "flex", marginTop: "1px" }}>
