@@ -44,6 +44,13 @@ const SignupComponent = ({ setPage, setUserId, setIsSession }) => {
     });
   };
 
+  const handleEnterKey = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleSignup();
+    }
+  };
+
   return (
     <>
       <Form className="signup-form">
@@ -83,6 +90,7 @@ const SignupComponent = ({ setPage, setUserId, setIsSession }) => {
             placeholder="아이디"
             onChange={(event) => setId(event.target.value)}
             maxLength={20}
+            onKeyPress={handleEnterKey}
           />
         </Form.Item>
         <Form.Item
@@ -125,6 +133,7 @@ const SignupComponent = ({ setPage, setUserId, setIsSession }) => {
             placeholder="비밀번호"
             onChange={(event) => setPassword(event.target.value)}
             maxLength={16}
+            onKeyPress={handleEnterKey}
             suffix={
               passwordVisible ? (
                 <EyeOutlined onClick={togglePasswordVisibility} />
@@ -169,6 +178,7 @@ const SignupComponent = ({ setPage, setUserId, setIsSession }) => {
             placeholder="이름"
             onChange={(event) => setName(event.target.value)}
             maxLength={40}
+            onKeyPress={handleEnterKey}
           />
         </Form.Item>
         <Form.Item className="form-btn">

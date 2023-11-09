@@ -49,6 +49,17 @@ const ChatComponent = ({
     return data.roomName;
   };
 
+  const handleEnterKey = (e) => {
+    if (e.key === "Enter") {
+      if (e.shiftKey) {
+        setInputMessage((prevMessage) => prevMessage + "\n");
+      } else {
+        handleSendMessage();
+      }
+      e.preventDefault();
+    }
+  };
+
   useEffect(() => {
     setInputMessage("");
     handleChatList();
@@ -173,13 +184,14 @@ const ChatComponent = ({
                   </div>
                 ))}
               </div>
-              <div style={{ display: "flex" }}>
+              <div style={{ display: "flex", marginTop: "1px" }}>
                 <Input.TextArea
                   placeholder=""
                   value={inputMessage}
                   onChange={handleInputChange}
                   style={{ flex: "1", marginRight: "10px" }}
                   autoSize={{ minRows: 1, maxRows: 1 }}
+                  onKeyPress={handleEnterKey}
                 />
                 <Button
                   type="primary"
