@@ -17,7 +17,7 @@ const SocketService = {
       setRoomList(roomList);
 
       if (roomId === 0) return;
-      console.log(roomId, chatList);
+
       const recentlyRoomIdInChatList = roomList.length ? roomList[0].roomId : 0;
       if (roomId !== recentlyRoomIdInChatList) return;
 

@@ -78,13 +78,26 @@ const ChatComponent = ({
         {roomId === 0 ? (
           <>
             <div className="chat-component">
-              <div className="chat-list"></div>
+              <div
+                className="chat-list"
+                style={{ alignItems: "center", justifyContent: "center" }}
+              >
+                <img
+                  src="/images/chat_blank.png"
+                  alt="새 채팅을 시작해보세요."
+                  style={{
+                    paddingTop: "84px",
+                    width: "130px",
+                    height: "140px",
+                  }}
+                />
+              </div>
             </div>
           </>
         ) : (
           <>
             <div className="chat-component">
-              <div className="btn-icon temp">
+              <div className="info-bar">
                 <Button className="btn" onClick={() => setRoomId(0)}>
                   <ArrowLeftOutlined className="icon" />
                 </Button>
