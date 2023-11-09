@@ -30,7 +30,7 @@ const UserComponent = ({ userId, userList, setRoomId }) => {
 
   useEffect(() => {
     handleUserInfo();
-  }, [userList]);
+  }, [userList]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
