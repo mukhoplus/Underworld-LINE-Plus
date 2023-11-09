@@ -73,3 +73,17 @@
   text-orientation: upright;
   white-space: nowrap;
 }
+
+.date-line {
+  display: flex;
+  justify-content: center;
+}
+
+.chat-date {
+  background-color: rgb(155, 155, 155);
+  color: white;
+  font-size: 12px;
+  border-radius: 20px;
+  padding: 5px 20px;
+  margin: 10px 0 10px 0;
+}

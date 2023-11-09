@@ -17,6 +17,7 @@ const ChatComponent = ({
 }) => {
   const [inputMessage, setInputMessage] = useState("");
   const chatListRef = useRef(null);
+  let dateOutput = {};
 
   const handleInputChange = (e) => {
     setInputMessage(e.target.value);
@@ -49,6 +50,17 @@ const ChatComponent = ({
     return data.roomName;
   };
 
+  const isChatDateInDateOutput = (date) => {
+    return dateOutput.hasOwnProperty(getChatDate(date));
+  };
+
+  const handleChatDate = (date) => {
+    const chatDate = getChatDate(date);
+
+    dateOutput[chatDate] = true;
+    return chatDate;
+  };
+
   const handleEnterKey = (e) => {
     if (e.key === "Enter") {
       if (e.shiftKey) {
@@ -62,13 +74,14 @@ const ChatComponent = ({
 
   useEffect(() => {
     setInputMessage("");
+    dateOutput = {}; // eslint-disable-line react-hooks/exhaustive-deps
     handleChatList();
 
     if (chatListRef.current) {
       const element = document.getElementById("chat-list");
       element.scrollTop = element.scrollHeight;
     }
-  }, [roomId]);
+  }, [roomId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (chatListRef.current) {
@@ -116,72 +129,83 @@ const ChatComponent = ({
                 className="custom-scroll chat-list"
               >
                 {chatList.map((chat, index) => (
-                  <div
-                    id={`line-${index}`}
-                    key={`line-${index}`}
-                    style={{
-                      alignSelf:
-                        chat.sendUserId === userId ? "flex-end" : "flex-start",
-                      maxWidth: "80%",
-                      display: "inline-flex",
-                      alignItems: "flex-end",
-                    }}
-                  >
-                    {chat.sendUserId !== userId && (
-                      <div style={{ paddingBottom: "5px" }}>
-                        <Avatar />
+                  <>
+                    {!isChatDateInDateOutput(chat.sendAt) && (
+                      <div className="date-line" key={`date-${index}`}>
+                        <span className="chat-date">
+                          {handleChatDate(chat.sendAt)}
+                        </span>
                       </div>
                     )}
-                    {chat.sendUserId === userId && (
-                      <p
-                        style={{
-                          margin: 0,
-                          paddingBottom: "5px",
-                          textAlign: "right",
-                          minWidth: "20%",
-                        }}
-                      >
-                        {chat.notRead !== 0 && chat.notRead}
-                        <br />
-                        {getChatTime(chat.sendAt)}
-                      </p>
-                    )}
                     <div
-                      id={`message-${index}`}
-                      key={`message-${index}`}
+                      id={`line-${index}`}
+                      key={`line-${index}`}
                       style={{
                         alignSelf:
                           chat.sendUserId === userId
                             ? "flex-end"
                             : "flex-start",
-                        margin: "5px",
-                        padding: "10px",
-                        maxWidth: chat.sendUserId === userId ? "71%" : "65%",
-                        background:
-                          chat.sendUserId === userId ? "#06c755" : "#e0e0e0",
-                        color: chat.sendUserId === userId ? "white" : "black",
-                        borderRadius: "8px",
-                        whiteSpace: "pre-wrap",
-                        overflowWrap: "break-word",
+                        maxWidth: "80%",
+                        display: "inline-flex",
+                        alignItems: "flex-end",
                       }}
                     >
-                      {chat.message}
-                    </div>
-                    {chat.sendUserId !== userId && (
-                      <p
+                      {chat.sendUserId !== userId && (
+                        <div style={{ paddingBottom: "5px" }}>
+                          <Avatar />
+                        </div>
+                      )}
+                      {chat.sendUserId === userId && (
+                        <p
+                          style={{
+                            margin: 0,
+                            paddingBottom: "5px",
+                            textAlign: "right",
+                            minWidth: "20%",
+                          }}
+                        >
+                          {chat.notRead !== 0 && chat.notRead}
+                          <br />
+                          {getChatTime(chat.sendAt)}
+                        </p>
+                      )}
+                      <div
+                        id={`message-${index}`}
+                        key={`message-${index}`}
                         style={{
-                          margin: 0,
-                          paddingBottom: "5px",
-                          textAlign: "left",
-                          minWidth: "20%",
+                          alignSelf:
+                            chat.sendUserId === userId
+                              ? "flex-end"
+                              : "flex-start",
+                          margin: "5px",
+                          padding: "10px",
+                          maxWidth: chat.sendUserId === userId ? "71%" : "65%",
+                          background:
+                            chat.sendUserId === userId ? "#06c755" : "#e0e0e0",
+                          color: chat.sendUserId === userId ? "white" : "black",
+                          borderRadius: "8px",
+                          whiteSpace: "pre-wrap",
+                          overflowWrap: "break-word",
                         }}
                       >
-                        {chat.notRead !== 0 && chat.notRead}
-                        <br />
-                        {getChatTime(chat.sendAt)}
-                      </p>
-                    )}
-                  </div>
+                        {chat.message}
+                      </div>
+                      {chat.sendUserId !== userId && (
+                        <p
+                          style={{
+                            margin: 0,
+                            paddingBottom: "5px",
+                            textAlign: "left",
+                            minWidth: "20%",
+                          }}
+                        >
+                          {chat.notRead !== 0 && chat.notRead}
+                          <br />
+                          {getChatTime(chat.sendAt)}
+                        </p>
+                      )}
+                    </div>
+                  </>
                 ))}
               </div>
               <div style={{ display: "flex", marginTop: "1px" }}>

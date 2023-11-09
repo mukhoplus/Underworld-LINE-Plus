@@ -56,7 +56,7 @@ const InfoComponent = ({
   useEffect(() => {
     handleUserList();
     handleRoomList();
-  }, [userId]);
+  }, [userId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
