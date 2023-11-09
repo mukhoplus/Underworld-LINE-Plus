@@ -17,9 +17,9 @@ const SocketService = {
       setRoomList(roomList);
 
       if (roomId === 0) return;
-
-      const roomIdInChatList = roomList.length ? roomList[0].roomId : 0;
-      if (roomId !== roomIdInChatList) return;
+      console.log(roomId, chatList);
+      const recentlyRoomIdInChatList = roomList.length ? roomList[0].roomId : 0;
+      if (roomId !== recentlyRoomIdInChatList) return;
 
       if (isInNotReadMessages(userId, chatList)) {
         SocketService.read(roomId, userId);
@@ -46,7 +46,9 @@ const SocketService = {
       data: sendChatDto,
     };
 
-    SocketService.socket.send(JSON.stringify(socketSendDto));
+    try {
+      SocketService.socket.send(JSON.stringify(socketSendDto));
+    } catch (error) {}
   },
 
   read: (roomId, readUserId) => {
@@ -61,7 +63,9 @@ const SocketService = {
       data: sendChatDto,
     };
 
-    SocketService.socket.send(JSON.stringify(socketSendDto));
+    try {
+      SocketService.socket.send(JSON.stringify(socketSendDto));
+    } catch (error) {}
   },
 
   close: () => {
