@@ -3,7 +3,8 @@ import { Input, Button, Avatar } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import SocketService from "../../../service/SocketService";
 import { axiosRequest } from "../../../service/AxiosService";
-import { getChatDate, getChatTime } from "../../../service/DateTimeService";
+import { getChatDate, getChatTime } from "../../../utils/DateTimeUtil";
+import { LongStringUtil } from "../../../utils/LongStringUtil";
 import "./css/ChatComponent.css";
 
 const ChatComponent = ({
@@ -43,14 +44,9 @@ const ChatComponent = ({
   const getRoomNameByRoomId = (roomList, roomId) => {
     if (roomId === 0) return "";
     const data = roomList.find((room) => room.roomId === roomId);
-    return data.roomName;
-  };
 
-  const handleLongRoomName = (roomName) => {
-    const maxLength = 16;
-    return roomName.length > maxLength
-      ? `${roomName.slice(0, maxLength)}...`
-      : roomName;
+    if (!data) return "";
+    return data.roomName;
   };
 
   useEffect(() => {
@@ -76,18 +72,31 @@ const ChatComponent = ({
         {roomId === 0 ? (
           <>
             <div className="chat-component">
-              <div className="chat-list"></div>
+              <div
+                className="chat-list"
+                style={{ alignItems: "center", justifyContent: "center" }}
+              >
+                <img
+                  src="/images/chat_blank.png"
+                  alt="새 채팅을 시작해보세요."
+                  style={{
+                    paddingTop: "84px",
+                    width: "131px",
+                    height: "137px",
+                  }}
+                />
+              </div>
             </div>
           </>
         ) : (
           <>
             <div className="chat-component">
-              <div className="btn-icon temp">
+              <div className="info-bar">
                 <Button className="btn" onClick={() => setRoomId(0)}>
                   <ArrowLeftOutlined className="icon" />
                 </Button>
                 <span className="room-name">
-                  {handleLongRoomName(getRoomNameByRoomId(roomList, roomId))}
+                  {LongStringUtil(getRoomNameByRoomId(roomList, roomId), 16)}
                 </span>
               </div>
               <div
@@ -102,7 +111,7 @@ const ChatComponent = ({
                     style={{
                       alignSelf:
                         chat.sendUserId === userId ? "flex-end" : "flex-start",
-                      maxWidth: "70%",
+                      maxWidth: "80%",
                       display: "inline-flex",
                       alignItems: "flex-end",
                     }}
@@ -118,7 +127,7 @@ const ChatComponent = ({
                           margin: 0,
                           paddingBottom: "5px",
                           textAlign: "right",
-                          minWidth: "30%",
+                          minWidth: "20%",
                         }}
                       >
                         {chat.notRead !== 0 && chat.notRead}
@@ -136,7 +145,7 @@ const ChatComponent = ({
                             : "flex-start",
                         margin: "5px",
                         padding: "10px",
-                        maxWidth: chat.sendUserId === userId ? "59%" : "55%",
+                        maxWidth: chat.sendUserId === userId ? "71%" : "65%",
                         background:
                           chat.sendUserId === userId ? "#06c755" : "#e0e0e0",
                         color: chat.sendUserId === userId ? "white" : "black",
@@ -153,7 +162,7 @@ const ChatComponent = ({
                           margin: 0,
                           paddingBottom: "5px",
                           textAlign: "left",
-                          minWidth: "30%",
+                          minWidth: "20%",
                         }}
                       >
                         {chat.notRead !== 0 && chat.notRead}
@@ -170,7 +179,7 @@ const ChatComponent = ({
                   value={inputMessage}
                   onChange={handleInputChange}
                   style={{ flex: "1", marginRight: "10px" }}
-                  autoSize={{ minRows: 1, maxRows: 10 }}
+                  autoSize={{ minRows: 1, maxRows: 1 }}
                 />
                 <Button
                   type="primary"

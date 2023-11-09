@@ -6,7 +6,7 @@ import {
   IdcardOutlined,
   LockOutlined,
 } from "@ant-design/icons";
-import { warningModal, errorModal } from "../../../service/ModalService";
+import { warningModal, errorModal } from "../../../utils/ModalUtil";
 import { getSessionUserId } from "../../../service/SessionService";
 import { axiosRequest } from "../../../service/AxiosService";
 import "../css/HelloComponent.css";
@@ -83,14 +83,14 @@ const LoginComponent = ({ setPage, setUserId, setIsSession }) => {
         <Form.Item className="form-btn">
           <Button
             type="primary"
-            className="btn"
+            className="hello-btn"
             style={{ backgroundColor: "#06c755", marginRight: "60px" }}
             onClick={handleLogin}
           >
             로그인
           </Button>
           <Button
-            className="btn"
+            className="hello-btn"
             style={{ border: "1px solid lightgray" }}
             onClick={() => setPage(1)}
           >

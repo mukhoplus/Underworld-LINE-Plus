@@ -11,6 +11,7 @@ import {
 import SocketService from "../../service/SocketService";
 import InfoComponent from "./components/InfoComponent";
 import ChatComponent from "./components/ChatComponent";
+import { BaseURL } from "../../service/HostingService";
 import "../css/Main.css";
 
 const getAllNotReadCount = (roomList) => {
@@ -43,7 +44,7 @@ const Main = ({
 
   useEffect(() => {
     SocketService.connect(
-      "ws://localhost:8080/api/v1/socket",
+      `ws://${BaseURL}/api/v1/socket`,
       setRoomList,
       setChatList
     );
