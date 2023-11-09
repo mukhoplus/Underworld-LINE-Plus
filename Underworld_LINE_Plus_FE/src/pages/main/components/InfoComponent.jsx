@@ -5,8 +5,8 @@ import {
   MessageOutlined,
   LogoutOutlined,
 } from "@ant-design/icons";
-import UserComponent from "./info/UserComponent";
-import RoomComponent from "./info/RoomComponent";
+import UserComponent from "./info/user/UserComponent";
+import RoomComponent from "./info/room/RoomComponent";
 import { axiosRequest } from "../../../service/AxiosService";
 import SocketService from "../../../service/SocketService";
 import "./css/InfoComponent.css";
@@ -113,7 +113,6 @@ const InfoComponent = ({
               userId={userId}
               setRoomId={setRoomId}
               roomList={roomList}
-              handleRoomList={handleRoomList}
             />
           )}
         </Col>
