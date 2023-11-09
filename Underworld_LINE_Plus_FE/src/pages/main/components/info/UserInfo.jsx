@@ -1,4 +1,5 @@
 import { Badge, Avatar } from "antd";
+import { LongStringUtil } from "../../../../utils/LongStringUtil";
 import "../css/UserInfo.css";
 import "../css/ChatComponent.css";
 
@@ -21,10 +22,12 @@ const UserInfo = ({ userId, userInfo, handleChatIdToRoomId }) => {
             {user.userId === userId ? (
               <>
                 <Badge count="나" style={{ backgroundColor: "#06c755" }} />
-                <span style={{ margin: "0 4px" }}>{user.name}</span>
+                <span style={{ margin: "0 4px" }}>
+                  {LongStringUtil(user.name, 22)}
+                </span>
               </>
             ) : (
-              <span>{user.name}</span>
+              <span>{LongStringUtil(user.name, 22)}</span>
             )}
           </div>
         ))}

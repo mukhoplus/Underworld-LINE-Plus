@@ -8,7 +8,7 @@ import {
   UserOutlined,
   LockOutlined,
 } from "@ant-design/icons";
-import { warningModal } from "../../../service/ModalService";
+import { warningModal } from "../../../utils/ModalUtil";
 import { getSessionUserId } from "../../../service/SessionService";
 import { axiosRequest } from "../../../service/AxiosService";
 import "../css/HelloComponent.css";

@@ -61,7 +61,7 @@ const InfoComponent = ({
   return (
     <>
       <Row>
-        <Col>
+        <Col style={{ borderRight: "1px solid gainsboro" }}>
           <Row>
             <Button className="btn-icon" onClick={() => setMenu(0)}>
               <UserOutlined
@@ -101,7 +101,7 @@ const InfoComponent = ({
             </Button>
           </Row>
         </Col>
-        <Col style={{ width: "390px" }}>
+        <Col style={{ width: "389px" }}>
           {menu === 0 ? (
             <UserComponent
               userId={userId}

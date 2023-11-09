@@ -6,7 +6,7 @@ import {
   IdcardOutlined,
   LockOutlined,
 } from "@ant-design/icons";
-import { warningModal, errorModal } from "../../../service/ModalService";
+import { warningModal, errorModal } from "../../../utils/ModalUtil";
 import { getSessionUserId } from "../../../service/SessionService";
 import { axiosRequest } from "../../../service/AxiosService";
 import "../css/HelloComponent.css";

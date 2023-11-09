@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Row, Col, Table, Avatar, Badge } from "antd";
-import { getRoomDateTime } from "../../../../service/DateTimeService";
+import { getRoomDateTime } from "../../../../utils/DateTimeUtil";
 
 const RoomComponent = ({ userId, setRoomId, roomList, handleRoomList }) => {
   useEffect(() => {

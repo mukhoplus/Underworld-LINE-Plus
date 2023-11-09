@@ -3,7 +3,8 @@ import { Input, Button, Avatar } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import SocketService from "../../../service/SocketService";
 import { axiosRequest } from "../../../service/AxiosService";
-import { getChatDate, getChatTime } from "../../../service/DateTimeService";
+import { getChatDate, getChatTime } from "../../../utils/DateTimeUtil";
+import { LongStringUtil } from "../../../utils/LongStringUtil";
 import "./css/ChatComponent.css";
 
 const ChatComponent = ({
@@ -46,13 +47,6 @@ const ChatComponent = ({
 
     if (!data) return "";
     return data.roomName;
-  };
-
-  const handleLongRoomName = (roomName) => {
-    const maxLength = 16;
-    return roomName.length > maxLength
-      ? `${roomName.slice(0, maxLength)}...`
-      : roomName;
   };
 
   useEffect(() => {
@@ -102,7 +96,7 @@ const ChatComponent = ({
                   <ArrowLeftOutlined className="icon" />
                 </Button>
                 <span className="room-name">
-                  {handleLongRoomName(getRoomNameByRoomId(roomList, roomId))}
+                  {LongStringUtil(getRoomNameByRoomId(roomList, roomId), 16)}
                 </span>
               </div>
               <div
