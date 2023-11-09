@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
-import { Row, Col, Table, Badge, Avatar } from "antd";
 import { axiosRequest } from "../../../../service/AxiosService";
+import UserInfo from "./UserInfo";
 
 const UserComponent = ({ userId, userList, setRoomId }) => {
-  const [myInfo, setMyInfo] = useState({});
-  const [friendInfo, setFriendInfo] = useState([]);
+  const [userInfo, setUserInfo] = useState([]);
 
   const getMyInfo = () => {
     return userList.find((item) => item.userId === userId);
@@ -14,11 +13,13 @@ const UserComponent = ({ userId, userList, setRoomId }) => {
     return userList.filter((item) => item.userId !== userId);
   };
 
-  const handleUserList = () => {
+  const handleUserInfo = () => {
     if (userList.length === 0) return;
 
-    setMyInfo(getMyInfo());
-    setFriendInfo(getFriendInfo());
+    const myInfo = getMyInfo();
+    const friendInfo = getFriendInfo();
+
+    setUserInfo([{ ...myInfo }, ...friendInfo]);
   };
 
   const handleChatIdToRoomId = async (userId) => {
@@ -28,51 +29,16 @@ const UserComponent = ({ userId, userList, setRoomId }) => {
   };
 
   useEffect(() => {
-    handleUserList();
+    handleUserInfo();
   }, [userList]);
-
-  const columns = [
-    {
-      title: "이름",
-      dataIndex: "name",
-      key: "name",
-      render: (text, record) => (
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <Avatar style={{ marginRight: "6px" }} />
-          {record.userId === userId ? (
-            <>
-              <Badge count="나" style={{ backgroundColor: "#06c755" }} />
-              <span style={{ margin: "0 4px" }}>{text}</span>
-            </>
-          ) : (
-            <>{text}</>
-          )}
-        </div>
-      ),
-    },
-  ];
 
   return (
     <>
-      <Row>
-        <Col>
-          <Table
-            dataSource={[{ ...myInfo }, ...friendInfo]}
-            columns={columns}
-            showHeader={false}
-            pagination={false}
-            rowKey="userId"
-            onRow={(record) => ({
-              onDoubleClick: () => handleChatIdToRoomId(record.userId),
-            })}
-          />
-        </Col>
-      </Row>
+      <UserInfo
+        userId={userId}
+        userInfo={userInfo}
+        handleChatIdToRoomId={handleChatIdToRoomId}
+      />
     </>
   );
 };
