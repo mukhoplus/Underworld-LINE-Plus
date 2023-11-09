@@ -111,7 +111,7 @@ const ChatComponent = ({
                     style={{
                       alignSelf:
                         chat.sendUserId === userId ? "flex-end" : "flex-start",
-                      maxWidth: "70%",
+                      maxWidth: "80%",
                       display: "inline-flex",
                       alignItems: "flex-end",
                     }}
@@ -127,7 +127,7 @@ const ChatComponent = ({
                           margin: 0,
                           paddingBottom: "5px",
                           textAlign: "right",
-                          minWidth: "30%",
+                          minWidth: "20%",
                         }}
                       >
                         {chat.notRead !== 0 && chat.notRead}
@@ -145,7 +145,7 @@ const ChatComponent = ({
                             : "flex-start",
                         margin: "5px",
                         padding: "10px",
-                        maxWidth: chat.sendUserId === userId ? "59%" : "55%",
+                        maxWidth: chat.sendUserId === userId ? "71%" : "65%",
                         background:
                           chat.sendUserId === userId ? "#06c755" : "#e0e0e0",
                         color: chat.sendUserId === userId ? "white" : "black",
@@ -162,7 +162,7 @@ const ChatComponent = ({
                           margin: 0,
                           paddingBottom: "5px",
                           textAlign: "left",
-                          minWidth: "30%",
+                          minWidth: "20%",
                         }}
                       >
                         {chat.notRead !== 0 && chat.notRead}
@@ -179,7 +179,7 @@ const ChatComponent = ({
                   value={inputMessage}
                   onChange={handleInputChange}
                   style={{ flex: "1", marginRight: "10px" }}
-                  autoSize={{ minRows: 1, maxRows: 10 }}
+                  autoSize={{ minRows: 1, maxRows: 1 }}
                 />
                 <Button
                   type="primary"

@@ -36,11 +36,11 @@
 }
 
 .chat-list {
-  max-width: 400px;
-  width: 400px;
+  max-width: 420px;
+  width: 420px;
   height: 500px;
   margin: 0 auto;
-  padding: 10px 20px 8px 20px;
+  padding: 9px 10px 8px 10px;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
