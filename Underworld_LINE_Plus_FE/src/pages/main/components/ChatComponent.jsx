@@ -81,8 +81,8 @@ const ChatComponent = ({
                   alt="새 채팅을 시작해보세요."
                   style={{
                     paddingTop: "84px",
-                    width: "130px",
-                    height: "140px",
+                    width: "131px",
+                    height: "137px",
                   }}
                 />
               </div>

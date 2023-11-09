@@ -18,7 +18,7 @@ const UserInfo = ({ userId, userInfo, handleChatIdToRoomId }) => {
             }}
             onDoubleClick={() => handleChatIdToRoomId(user.userId)}
           >
-            <Avatar style={{ margin: "0px 6px 0px 10px" }} />
+            <Avatar style={{ margin: "0px 10px 0px 10px" }} />
             {user.userId === userId ? (
               <>
                 <Badge count="나" style={{ backgroundColor: "#06c755" }} />
