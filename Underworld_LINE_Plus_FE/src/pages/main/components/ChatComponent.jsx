@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Input, Button } from "antd";
 import SocketService from "../../../service/SocketService";
 import { axiosRequest } from "../../../service/AxiosService";
+import { isInNotReadMessages } from "../../../utils/MessageUtil";
 import ChatBlank from "./chat/ChatBlank";
 import ChatList from "./chat/ChatList";
 import "./css/ChatComponent.css";
@@ -31,14 +32,19 @@ const ChatComponent = ({
     }
   };
 
-  const handleChatList = () => {
+  const handleChatList = async () => {
     if (roomId === 0) return;
 
-    axiosRequest("get", `/chat/${roomId}`).then((response) => {
-      setChatList(response.data);
-    });
+    await axiosRequest("get", `/chat/${roomId}`).then((response) => {
+      const newChatList = response.data;
 
-    SocketService.read(roomId, userId);
+      if (isInNotReadMessages(userId, newChatList)) {
+        SocketService.read(roomId, userId);
+        return;
+      }
+
+      setChatList(newChatList);
+    });
   };
 
   const handleEnterKey = (e) => {
@@ -89,6 +95,7 @@ const ChatComponent = ({
               />
               <div style={{ display: "flex", margin: "1px 0px" }}>
                 <Input.TextArea
+                  id="chat-input"
                   placeholder=""
                   value={inputMessage}
                   onChange={handleInputChange}

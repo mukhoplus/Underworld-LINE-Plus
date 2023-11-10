@@ -23,7 +23,7 @@ const UserComponent = ({ userId, userList, setRoomId }) => {
   };
 
   const handleChatIdToRoomId = async (userId) => {
-    axiosRequest("get", `/room/user/${userId}`).then((response) => {
+    await axiosRequest("get", `/room/user/${userId}`).then((response) => {
       setRoomId(response.data);
     });
   };
