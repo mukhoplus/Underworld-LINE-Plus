@@ -34,7 +34,8 @@
         UPDATE
             room
         SET
-            last_message = #{message}
+            last_message = #{message},
+            updated_at = NOW()
         WHERE
             room_id = #{roomId}
     </update>
@@ -91,7 +92,8 @@
         OR
             identifier like CONCAT('%-', #{userId})
         ORDER BY
-            updated_at DESC
+            updated_at DESC,
+            room_id DESC
     </select>
 
     <select id="getRoomIdByIdentifier" resultType="java.lang.Integer">
