@@ -1,4 +1,5 @@
 import store from "../redux/store";
+import { isInNotReadMessages } from "../utils/MessageUtil";
 
 const SocketService = {
   socket: null,
@@ -71,12 +72,6 @@ const SocketService = {
   close: () => {
     SocketService.socket.close();
   },
-};
-
-const isInNotReadMessages = (userId, newMessages) => {
-  return newMessages.some(
-    (message) => message.notRead === 1 && message.sendUserId !== userId
-  );
 };
 
 export default SocketService;

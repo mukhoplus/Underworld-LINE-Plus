@@ -90,6 +90,7 @@ const SignupComponent = ({ setPage, setUserId, setIsSession }) => {
             placeholder="아이디"
             onChange={(event) => setId(event.target.value)}
             maxLength={20}
+            autoComplete="off"
             onKeyPress={handleEnterKey}
           />
         </Form.Item>
@@ -133,6 +134,7 @@ const SignupComponent = ({ setPage, setUserId, setIsSession }) => {
             placeholder="비밀번호"
             onChange={(event) => setPassword(event.target.value)}
             maxLength={16}
+            autoComplete="off"
             onKeyPress={handleEnterKey}
             suffix={
               passwordVisible ? (
@@ -178,6 +180,7 @@ const SignupComponent = ({ setPage, setUserId, setIsSession }) => {
             placeholder="이름"
             onChange={(event) => setName(event.target.value)}
             maxLength={40}
+            autoComplete="off"
             onKeyPress={handleEnterKey}
           />
         </Form.Item>
