@@ -13,14 +13,13 @@ const SocketService = {
       const { userId, roomId } = store.getState();
 
       const data = JSON.parse(event.data);
-      const { roomList, chatList } = data;
+      const { roomList, chatResponseDto } = data;
+      const { roomId: responseRoomId, chatList } = chatResponseDto;
 
       setRoomList(roomList);
 
       if (roomId === 0) return;
-
-      const recentlyRoomIdInChatList = roomList.length ? roomList[0].roomId : 0;
-      if (roomId !== recentlyRoomIdInChatList) return;
+      if (roomId !== responseRoomId) return;
 
       if (isInNotReadMessages(userId, chatList)) {
         SocketService.read(roomId, userId);

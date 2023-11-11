@@ -90,6 +90,7 @@ const ChatComponent = ({
                 roomId={roomId}
                 setRoomId={setRoomId}
                 roomList={roomList}
+                setChatList={setChatList}
                 chatListRef={chatListRef}
                 dateOutput={dateOutput}
               />
