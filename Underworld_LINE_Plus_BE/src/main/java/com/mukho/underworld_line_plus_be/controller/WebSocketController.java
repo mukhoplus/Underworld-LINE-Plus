@@ -16,6 +16,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.mukho.underworld_line_plus_be.dto.chat.ChatDto;
+import com.mukho.underworld_line_plus_be.dto.chat.ChatResponseDto;
 import com.mukho.underworld_line_plus_be.dto.chat.SendChatDto;
 import com.mukho.underworld_line_plus_be.dto.chat.SocketResponseDto;
 import com.mukho.underworld_line_plus_be.dto.chat.SocketSendDto;
@@ -102,13 +103,14 @@ public class WebSocketController extends TextWebSocketHandler {
 
 			List<RoomDto> sendRoomList = getRoomListByUserId(sendUserId);
 			List<ChatDto> chatList = chatService.getChatList(roomId);
+			ChatResponseDto chatResponseDto = new ChatResponseDto(roomId, chatList);
 
-			SocketResponseDto sendUserDto = new SocketResponseDto(sendRoomList, chatList);
+			SocketResponseDto sendUserDto = new SocketResponseDto(sendRoomList, chatResponseDto);
 			sessions.get(sendUserId).sendMessage(new TextMessage(objectMapper.writeValueAsString(sendUserDto)));
 
 			if (sessions.containsKey(receiveUserId) && sessions.get(receiveUserId).isOpen()) {
 				List<RoomDto> receiveRoomList = getRoomListByUserId(receiveUserId);
-				SocketResponseDto receiveUserDto = new SocketResponseDto(receiveRoomList, chatList);
+				SocketResponseDto receiveUserDto = new SocketResponseDto(receiveRoomList, chatResponseDto);
 				sessions.get(receiveUserId).sendMessage(new TextMessage(objectMapper.writeValueAsString(receiveUserDto)));
 			}
 		} catch (Exception e) {
