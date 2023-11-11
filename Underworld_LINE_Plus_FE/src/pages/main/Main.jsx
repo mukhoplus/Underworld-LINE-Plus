@@ -48,7 +48,7 @@ const Main = ({
       setRoomList,
       setChatList
     );
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     setAllNotReadCount(getAllNotReadCount(roomList));
