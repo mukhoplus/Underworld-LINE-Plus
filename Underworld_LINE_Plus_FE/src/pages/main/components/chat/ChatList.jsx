@@ -9,6 +9,7 @@ const ChatList = ({
   roomId,
   setRoomId,
   roomList,
+  setChatList,
   chatListRef,
   dateOutput,
 }) => {
@@ -31,6 +32,11 @@ const ChatList = ({
     return chatDate;
   };
 
+  const handleBack = () => {
+    setRoomId(0);
+    setChatList([]);
+  };
+
   return (
     <>
       <div className="info-bar">
@@ -39,7 +45,7 @@ const ChatList = ({
           style={{
             paddingLeft: "10px",
           }}
-          onClick={() => setRoomId(0)}
+          onClick={handleBack}
         />
         <span className="room-name">
           {LongStringUtil(getRoomNameByRoomId(roomList, roomId), 20)}
