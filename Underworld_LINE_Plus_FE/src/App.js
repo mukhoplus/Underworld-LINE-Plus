@@ -24,7 +24,7 @@ const App = ({ userId, setUserId, userList, roomList, roomId, chatList }) => {
 
   useEffect(() => {
     getSessionUserId(setUserId, setIsSession);
-  }, [userId]);
+  }, [userId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!isSession) return;
   return (
