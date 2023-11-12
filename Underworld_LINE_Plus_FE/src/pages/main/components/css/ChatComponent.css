@@ -92,3 +92,16 @@
   padding: 5px 20px;
   margin: 10px 0 10px 0;
 }
+
+.submit-btn,
+.submit-btn:hover,
+.submit-btn:focus {
+  background-color: #06c755 !important;
+}
+
+.submit-btn[disabled],
+.submit-btn[disabled]:hover,
+.submit-btn[disabled]:focus {
+  cursor: default !important;
+  background-color: lightgray !important;
+}

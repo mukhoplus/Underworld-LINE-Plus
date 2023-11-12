@@ -23,8 +23,12 @@ const ChatComponent = ({
     setInputMessage(e.target.value);
   };
 
+  const sendMessageValidation = () => {
+    return !/^\s*$/.test(inputMessage);
+  };
+
   const handleSendMessage = () => {
-    if (!/^[a-z0-9_-]{5,20}$/.test(inputMessage)) {
+    if (sendMessageValidation()) {
       const trimMessage = inputMessage.trim();
 
       SocketService.send(roomId, userId, trimMessage);
@@ -105,9 +109,10 @@ const ChatComponent = ({
                   onKeyPress={handleEnterKey}
                 />
                 <Button
+                  className="submit-btn"
                   type="primary"
-                  style={{ backgroundColor: "#06c755" }}
                   onClick={handleSendMessage}
+                  disabled={!sendMessageValidation()}
                 >
                   전송
                 </Button>
