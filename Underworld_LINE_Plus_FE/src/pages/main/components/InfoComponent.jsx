@@ -72,7 +72,11 @@ const InfoComponent = ({
           </Row>
           <Row>
             <Button className="btn-icon" onClick={() => setMenu(1)}>
-              <Badge count={allNotReadCount}>
+              <Badge
+                style={{ fontSize: "10px" }}
+                count={allNotReadCount}
+                overflowCount={999}
+              >
                 <MessageOutlined
                   className="icon"
                   style={{ color: menu === 1 ? "#06c755" : null }}

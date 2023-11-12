@@ -55,7 +55,7 @@ const RoomInfo = ({ userId, roomList, setRoomId }) => {
                   {LongStringUtil(room.lastMessage, 20)}
                 </div>
                 <div className="read">
-                  <Badge count={room.notReadCount} />
+                  <Badge count={room.notReadCount} overflowCount={300} />
                 </div>
               </div>
             </div>
