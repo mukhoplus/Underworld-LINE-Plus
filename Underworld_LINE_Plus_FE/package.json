@@ -1,6 +1,6 @@
 {
   "name": "underworld_line_plus_fe",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
