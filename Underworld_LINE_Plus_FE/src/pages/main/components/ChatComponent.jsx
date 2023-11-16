@@ -39,16 +39,18 @@ const ChatComponent = ({
   const handleChatList = async () => {
     if (roomId === 0) return;
 
-    await axiosRequest("get", `/chat/${roomId}`).then((response) => {
-      const newChatList = response.data;
+    await axiosRequest("get", `/chat/${roomId}`)
+      .then((response) => {
+        const newChatList = response.data;
 
-      if (isInNotReadMessages(userId, newChatList)) {
-        SocketService.read(roomId, userId);
-        return;
-      }
+        if (isInNotReadMessages(userId, newChatList)) {
+          SocketService.read(roomId, userId);
+          return;
+        }
 
-      setChatList(newChatList);
-    });
+        setChatList(newChatList);
+      })
+      .catch(() => {});
   };
 
   const handleEnterKey = (e) => {

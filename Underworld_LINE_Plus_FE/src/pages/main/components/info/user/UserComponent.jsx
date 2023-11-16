@@ -23,9 +23,11 @@ const UserComponent = ({ userId, userList, setRoomId }) => {
   };
 
   const handleChatIdToRoomId = async (userId) => {
-    await axiosRequest("get", `/room/user/${userId}`).then((response) => {
-      setRoomId(response.data);
-    });
+    await axiosRequest("get", `/room/user/${userId}`)
+      .then((response) => {
+        setRoomId(response.data);
+      })
+      .catch(() => {});
   };
 
   useEffect(() => {
