@@ -103,9 +103,9 @@ public class UserController {
 			// 컴포넌트 이동 -> 소켓 세션 연결 끊기 -> 세션 정보 제거 : 버그 발견
 		} catch (Exception e) {
 
-		} finally {
-			return ResponseEntity.ok().build();
 		}
+
+		return ResponseEntity.ok().build();
 	}
 
 	@GetMapping("/list")
