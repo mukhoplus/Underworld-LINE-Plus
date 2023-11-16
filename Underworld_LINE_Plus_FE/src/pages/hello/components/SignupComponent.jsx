@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { Form, Input, Button } from "antd";
 import {
   EyeInvisibleOutlined,
@@ -72,7 +71,12 @@ const SignupComponent = ({ setPage, setUserId, setIsSession }) => {
                   );
                 }
 
-                await axios.get(`/user/name/${value}`).then((response) => {
+                try {
+                  const response = await axiosRequest(
+                    "get",
+                    `/user/id/${value}`
+                  );
+
                   if (!response.data) {
                     setIsIdOk(true);
                     return Promise.resolve();
@@ -80,7 +84,10 @@ const SignupComponent = ({ setPage, setUserId, setIsSession }) => {
                     setIsIdOk(false);
                     return Promise.reject("사용할 수 없는 아이디입니다.");
                   }
-                });
+                } catch (error) {
+                  setIsIdOk(false);
+                  return Promise.reject("에러가 발생했습니다.");
+                }
               },
             },
           ]}
@@ -162,7 +169,12 @@ const SignupComponent = ({ setPage, setUserId, setIsSession }) => {
                   );
                 }
 
-                await axios.get(`/user/name/${value}`).then((response) => {
+                try {
+                  const response = await axiosRequest(
+                    "get",
+                    `/user/name/${value}`
+                  );
+
                   if (!response.data) {
                     setIsNameOk(true);
                     return Promise.resolve();
@@ -170,7 +182,10 @@ const SignupComponent = ({ setPage, setUserId, setIsSession }) => {
                     setIsNameOk(false);
                     return Promise.reject("사용할 수 없는 이름입니다.");
                   }
-                });
+                } catch (error) {
+                  setIsNameOk(false);
+                  return Promise.reject("에러가 발생했습니다.");
+                }
               },
             },
           ]}
