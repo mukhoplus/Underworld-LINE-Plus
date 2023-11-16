@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.socket.WebSocketSession;
 
 import com.mukho.underworld_line_plus_be.dto.user.LoginDto;
 import com.mukho.underworld_line_plus_be.dto.user.LoginUserDto;
@@ -27,11 +28,27 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-	private HashMap<Integer, Integer> customSession = new HashMap<>();
+	private static HashMap<Integer, Integer> customSession = new HashMap<>();
 
 	public void setSession(HttpServletRequest request, LoginUserDto loginUserDto) {
 		HttpSession session = request.getSession();
 		session.setAttribute("loginUser", loginUserDto);
+		session.setMaxInactiveInterval(30 * 60);
+	}
+
+	public static void httpSessionDestroyed(HttpSession session) {
+		LoginUserDto loginUserDto = (LoginUserDto) session.getAttribute("loginUser");
+
+		try {
+			int userId = loginUserDto.getUserId();
+
+			if (customSession.containsKey(userId)) {
+				customSession.remove(userId);
+			}
+		} catch (Exception e) {
+
+		}
+
 	}
 
 	@GetMapping("/session")
@@ -97,8 +114,6 @@ public class UserController {
 	public ResponseEntity<?> logout(HttpServletRequest request) {
 		try {
 			HttpSession session = request.getSession();
-			LoginUserDto loginUserDto = (LoginUserDto) session.getAttribute("loginUser");
-			customSession.remove(loginUserDto.getUserId());
 			session.invalidate();
 			// 컴포넌트 이동 -> 소켓 세션 연결 끊기 -> 세션 정보 제거 : 버그 발견
 		} catch (Exception e) {
