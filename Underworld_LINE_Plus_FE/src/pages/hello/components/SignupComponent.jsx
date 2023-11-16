@@ -37,10 +37,12 @@ const SignupComponent = ({ setPage, setUserId, setIsSession }) => {
       name: name,
     };
 
-    axiosRequest("post", "/user/signup", postData).then(async () => {
-      await getSessionUserId(setUserId, setIsSession);
-      setPage(0);
-    });
+    axiosRequest("post", "/user/signup", postData)
+      .then(async () => {
+        await getSessionUserId(setUserId, setIsSession);
+        setPage(0);
+      })
+      .catch(() => {});
   };
 
   const handleEnterKey = (e) => {

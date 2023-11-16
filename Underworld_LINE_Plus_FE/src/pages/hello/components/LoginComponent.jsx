@@ -31,23 +31,28 @@ const LoginComponent = ({ setPage, setUserId, setIsSession }) => {
       password: password,
     };
 
-    axiosRequest("post", `/user/login`, postData).then(async (response) => {
-      if (response.data === "401 UNAUTHORIZED") {
-        await errorModal(
-          "로그인 실패",
-          "아이디 또는 비밀번호가 일치하지 않습니다."
-        );
-        return;
-      }
+    axiosRequest("post", `/user/login`, postData)
+      .then(async (response) => {
+        if (response.data === "401 UNAUTHORIZED") {
+          await errorModal(
+            "로그인 실패",
+            "아이디 또는 비밀번호가 일치하지 않습니다."
+          );
+          return;
+        }
 
-      if (response.data === "409 CONFLICT") {
-        await errorModal("로그인 실패", "다른 환경에서 이미 로그인 중입니다.");
-        return;
-      }
+        if (response.data === "409 CONFLICT") {
+          await errorModal(
+            "로그인 실패",
+            "다른 환경에서 이미 로그인 중입니다."
+          );
+          return;
+        }
 
-      await getSessionUserId(setUserId, setIsSession);
-      setPage(0);
-    });
+        await getSessionUserId(setUserId, setIsSession);
+        setPage(0);
+      })
+      .catch(() => {});
   };
 
   const handleEnterKey = (e) => {
