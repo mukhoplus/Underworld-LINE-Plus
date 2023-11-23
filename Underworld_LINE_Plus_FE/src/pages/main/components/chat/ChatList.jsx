@@ -1,3 +1,4 @@
+import { axiosRequest } from "../../../../service/AxiosService";
 import { Avatar } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { getChatDate, getChatTime } from "../../../../utils/DateTimeUtil";
@@ -9,15 +10,30 @@ const ChatList = ({
   roomId,
   setRoomId,
   roomList,
+  setRoomList,
   setChatList,
   chatListRef,
   dateOutput,
 }) => {
   const getRoomNameByRoomId = (roomList, roomId) => {
-    if (roomId === 0) return "";
-    const data = roomList.find((room) => room.roomId === roomId);
+    const getRoomNameInRoomList = (roomList, roomId) => {
+      return roomList.find((room) => room.roomId === roomId);
+    };
 
-    if (!data) return "";
+    if (roomId === 0) return "";
+    const data = getRoomNameInRoomList(roomList, roomId);
+
+    if (!data) {
+      const newData = axiosRequest("get", `/room/list/${userId}`).then(
+        (response) => {
+          setRoomList(response.data);
+          return getRoomNameInRoomList(response.data, roomId);
+        }
+      );
+
+      return newData.roomName || "";
+    }
+
     return data.roomName;
   };
 

@@ -77,6 +77,7 @@ const Main = ({
             setRoomId={setRoomId}
             chatList={chatList}
             roomList={roomList}
+            setRoomList={setRoomList}
             setChatList={setChatList}
           />
         </Col>
