@@ -6,11 +6,9 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.mukho.underworld_line_plus_be.dto.room.RoomDto;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class SocketResponseDto {

@@ -1,7 +1,5 @@
 package com.mukho.underworld_line_plus_be.listener;
 
-import java.util.Enumeration;
-
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;

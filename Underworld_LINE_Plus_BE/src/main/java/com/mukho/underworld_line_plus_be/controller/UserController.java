@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.socket.WebSocketSession;
 
 import com.mukho.underworld_line_plus_be.dto.user.LoginDto;
 import com.mukho.underworld_line_plus_be.dto.user.LoginUserDto;
