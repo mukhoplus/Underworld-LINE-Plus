@@ -16,7 +16,7 @@ const UserInfo = ({ userId, userInfo, handleChatIdToRoomId }) => {
               alignItems: "center",
               height: "60px",
             }}
-            onDoubleClick={() => handleChatIdToRoomId(user.userId)}
+            onClick={() => handleChatIdToRoomId(user.userId)}
           >
             <Avatar style={{ margin: "0px 10px 0px 10px" }} />
             {user.userId === userId ? (
