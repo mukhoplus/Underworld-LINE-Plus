@@ -17,7 +17,7 @@ const RoomInfo = ({ userId, roomList, setRoomId }) => {
               alignItems: "center",
               height: "60px",
             }}
-            onDoubleClick={() => setRoomId(room.roomId)}
+            onClick={() => setRoomId(room.roomId)}
           >
             <div
               className="avarta"
