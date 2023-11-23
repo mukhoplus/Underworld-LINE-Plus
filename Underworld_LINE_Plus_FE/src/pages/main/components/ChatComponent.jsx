@@ -13,6 +13,7 @@ const ChatComponent = ({
   setRoomId,
   chatList,
   roomList,
+  setRoomList,
   setChatList,
 }) => {
   const [inputMessage, setInputMessage] = useState("");
@@ -96,6 +97,7 @@ const ChatComponent = ({
                 roomId={roomId}
                 setRoomId={setRoomId}
                 roomList={roomList}
+                setRoomList={setRoomList}
                 setChatList={setChatList}
                 chatListRef={chatListRef}
                 dateOutput={dateOutput}
