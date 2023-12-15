@@ -42,18 +42,24 @@ public class WebSocketController extends TextWebSocketHandler {
 
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+		int userId;
+
 		try {
 			HttpSession curUserSession = (HttpSession) session.getAttributes().get("httpSession");
-
 			LoginUserDto loginUserDto = (LoginUserDto)curUserSession.getAttribute("loginUser");
-			int userId = loginUserDto.getUserId();
-			session.getAttributes().put("userId", userId);
 
-			super.afterConnectionEstablished(session);
-			sessions.put(userId, session);
+			userId = loginUserDto.getUserId();
 		} catch(Exception e) {
+			if (session.getUri() == null) return;
 
+			String value = session.getUri().getQuery().split("=")[1];
+			userId = Integer.parseInt(value);
 		}
+
+		session.getAttributes().put("userId", userId);
+
+		super.afterConnectionEstablished(session);
+		sessions.put(userId, session);
 
 	}
 
