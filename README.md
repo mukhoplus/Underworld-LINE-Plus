@@ -14,7 +14,7 @@ Made By Mukho
 
 ## Version
 
-`1.0.7` Last Updated 2023-11-23
+`1.0.8` Last Updated 2023-12-15
 
 ## Stacks
 
