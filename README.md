@@ -14,7 +14,7 @@ Made By Mukho
 
 ## Version
 
-`1.0.9` Last Updated 2024-02-08
+`1.1.0` Last Updated 2024-04-13
 
 ## Stacks
 
@@ -27,12 +27,13 @@ Made By Mukho
 ### Frontend
 
 - JavaScript, React, HTML, CSS
-- Antd
+- Redux, Axios, Antd
 - Visual Studio Code
 
 ### Cloud
 
 - Oracle Cloud Infrastructure
+- Nginx, Certbot
 
 ## Images
 
