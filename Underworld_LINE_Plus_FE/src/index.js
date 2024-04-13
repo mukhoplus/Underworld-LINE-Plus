@@ -8,7 +8,7 @@ import { BaseURL } from "./service/HostingService";
 import reportWebVitals from "./reportWebVitals";
 import "./index.css";
 
-AxiosProvider.defaults.baseURL = `http://${BaseURL}/api/v1`;
+AxiosProvider.defaults.baseURL = `https://${BaseURL}/api/v1`;
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
