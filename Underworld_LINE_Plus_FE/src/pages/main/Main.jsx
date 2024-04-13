@@ -44,7 +44,7 @@ const Main = ({
 
   useEffect(() => {
     SocketService.connect(
-      `ws://${BaseURL}/api/v1/socket`,
+      `wss://${BaseURL}/api/v1/socket`,
       setRoomList,
       setChatList
     );
