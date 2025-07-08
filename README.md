@@ -9,7 +9,7 @@ Made By Mukho
 
 ## Link
 
-- [Service](http://underworld-line.mukho.r-e.kr/)
+- [Service(New Version)](http://linepro.mukho.r-e.kr/)
 - [Notion](https://boom-dead-1ee.notion.site/Underworld-LINE-Plus-f0486d63b4344258af8a3fa68ace88f6?pvs=4)
 
 ## Version
